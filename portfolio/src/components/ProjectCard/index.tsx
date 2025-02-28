@@ -11,8 +11,9 @@ const ProjectCard = ({ project }: Props) => {
       <div className="flex flex-col gap-8 items-center md:flex-row md:gap-24">
         <img
           src={project.img}
-          alt=""
+          alt={project.title}
           className="w-full cursor-pointer rounded-2xl transition-all duration-300 hover:scale-105 md:w-[300px]"
+          onClick={() => window.open(project.url, "_blank")}
         />
 
         <div className="flex flex-col gap-5">

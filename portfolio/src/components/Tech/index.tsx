@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import {
+  BiLogoHtml5,
   BiLogoJavascript,
+  BiLogoPostgresql,
   BiLogoTailwindCss,
   BiLogoTypescript,
 } from "react-icons/bi";
@@ -50,6 +52,22 @@ const Tech = () => {
           transition={{ duration: 0.5 }}
         >
           <BiLogoTailwindCss className="cursor-pointer text-[80px] text-sky-400 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120]" />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <BiLogoHtml5 className="cursor-pointer text-[80px] text-orange-400 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120]" />
+        </motion.div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5 }}
+        >
+          <BiLogoPostgresql className="cursor-pointer text-[80px] text-sky-400 transition-all duration-300 hover:-translate-y-5 sm:text-[100px] md:text-[120]" />
         </motion.div>
       </div>
     </div>

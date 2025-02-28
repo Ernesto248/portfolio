@@ -14,6 +14,9 @@ importers:
       framer-motion:
         specifier: ^12.4.7
         version: 12.4.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      portfolio:
+        specifier: 'file:'
+        version: file:(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1))
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -28,7 +31,7 @@ importers:
         version: 4.0.8
       vite-project:
         specifier: 'file:'
-        version: file:(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1))
+        version: portfolio@file:(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1))
     devDependencies:
       '@eslint/js':
         specifier: ^9.19.0
@@ -1002,6 +1005,9 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  'portfolio@file:':
+    resolution: {directory: '', type: directory}
+
   postcss@8.5.3:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1113,9 +1119,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  'vite-project@file:':
-    resolution: {directory: '', type: directory}
 
   vite@6.1.1:
     resolution: {integrity: sha512-4GgM54XrwRfrOp297aIYspIti66k56v16ZnqHvrIM7mG+HjDlAwS7p+Srr7J6fGvEdOJ5JcQ/D9T7HhtdXDTzA==}
@@ -1971,6 +1974,18 @@ snapshots:
 
   picomatch@2.3.1: {}
 
+  portfolio@file:(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1)):
+    dependencies:
+      '@tailwindcss/vite': 4.0.8(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1))
+      framer-motion: 12.4.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      react-icons: 5.5.0(react@19.0.0)
+      tailwindcss: 4.0.8
+    transitivePeerDependencies:
+      - '@emotion/is-prop-valid'
+      - vite
+
   postcss@8.5.3:
     dependencies:
       nanoid: 3.3.8
@@ -2078,17 +2093,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  vite-project@file:(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1)):
-    dependencies:
-      '@tailwindcss/vite': 4.0.8(vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1))
-      framer-motion: 12.4.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      tailwindcss: 4.0.8
-    transitivePeerDependencies:
-      - '@emotion/is-prop-valid'
-      - vite
 
   vite@6.1.1(jiti@2.4.2)(lightningcss@1.29.1):
     dependencies:
