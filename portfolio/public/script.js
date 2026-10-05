@@ -5,6 +5,7 @@ function setLanguage(language) {
   const next = language === 'en' ? 'en' : 'es';
   document.documentElement.lang = next;
   languageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.setLanguage === next)));
+  document.querySelectorAll('[data-aria-es]').forEach((element) => element.setAttribute('aria-label', element.dataset[next === 'en' ? 'ariaEn' : 'ariaEs']));
   document.querySelector('meta[name="description"]').content = next === 'en'
     ? 'Ernesto Leonard Escariz, full stack developer. Web applications, automation and production business systems.'
     : 'Ernesto Leonard Escariz, desarrollador full stack. Aplicaciones web, automatización y sistemas de negocio en producción.';
