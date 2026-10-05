@@ -9,6 +9,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/script.js" defer></script>
+    <script type="module" src="/src/animations.ts"></script>
   </head>
   <body>
     <a class="skip-link" href="#main"><span data-copy="es">Saltar al contenido</span><span data-copy="en">Skip to content</span></a>
@@ -33,6 +34,7 @@
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-atmosphere" aria-hidden="true"></div>
         <div class="shell hero-grid">
           <div class="hero-copy">
             <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span><span data-copy="es">Desarrollador full stack · Valencia, España</span><span data-copy="en">Full stack developer · Valencia, Spain</span></p>
@@ -122,7 +124,7 @@
         <div class="shell capabilities"><span>TypeScript</span><span>React</span><span>Next.js</span><span>Node.js</span><span>Java</span><span>Spring Boot</span><span>PostgreSQL</span><span>Supabase</span></div>
       </section>
 
-      <section class="contact-section shell" id="contact" aria-labelledby="contact-title"><p class="section-kicker">03 / CONTACT</p><div class="contact-grid"><h2 id="contact-title"><span data-copy="es">¿Construimos algo que importe?</span><span data-copy="en">Let's build something that matters.</span></h2><div><p><span data-copy="es">Abierto a oportunidades de desarrollo full stack y a conversar sobre productos, sistemas y datos.</span><span data-copy="en">Open to full stack opportunities and conversations about products, systems and data.</span></p><a class="contact-email" href="mailto:ernestoleonard8@gmail.com">ernestoleonard8@gmail.com <span aria-hidden="true">↗</span></a></div></div></section>
+      <section class="contact-section shell" id="contact" aria-labelledby="contact-title"><div class="contact-glow" aria-hidden="true"></div><p class="section-kicker">03 / CONTACT</p><div class="contact-grid"><h2 id="contact-title"><span data-copy="es">¿Construimos algo que importe?</span><span data-copy="en">Let's build something that matters.</span></h2><div><p><span data-copy="es">Abierto a oportunidades de desarrollo full stack y a conversar sobre productos, sistemas y datos.</span><span data-copy="en">Open to full stack opportunities and conversations about products, systems and data.</span></p><a class="contact-email" href="mailto:ernestoleonard8@gmail.com">ernestoleonard8@gmail.com <span aria-hidden="true">↗</span></a></div></div></section>
     </main>
 
     <footer class="site-footer"><div class="shell footer-inner"><span>© <span id="year">2026</span> Ernesto Leonard Escariz</span><span><span data-copy="es">Diseñado para contar el trabajo detrás del código.</span><span data-copy="en">Made to show the work behind the code.</span></span><a href="#top"><span data-copy="es">Volver arriba ↑</span><span data-copy="en">Back to top ↑</span></a></div></footer>
