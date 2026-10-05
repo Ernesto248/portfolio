@@ -148,6 +148,11 @@ function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-atmosphere" aria-hidden="true"></div>
+      <div className="hero-depth" aria-hidden="true">
+        <span className="hero-depth-ring hero-depth-ring-one"></span>
+        <span className="hero-depth-ring hero-depth-ring-two"></span>
+        <span className="hero-depth-ring hero-depth-ring-three"></span>
+      </div>
       <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">
@@ -235,6 +240,33 @@ function Hero() {
   );
 }
 
+function Interlude() {
+  return (
+    <section
+      className="interlude"
+      aria-label="Proyectos seleccionados"
+      data-aria-es="Proyectos seleccionados"
+      data-aria-en="Selected projects"
+    >
+      <div className="interlude-stage">
+        <div className="interlude-orbit" aria-hidden="true"></div>
+        <div className="interlude-content shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]">
+          <span className="interlude-kicker">01 — 03 / CASE STUDIES</span>
+          <p>
+            <span data-copy="es">Del problema al producto.</span>
+            <span data-copy="en">From problem to product.</span>
+          </p>
+          <span className="interlude-bottom">
+            <span data-copy="es">Desliza para explorar tres sistemas reales</span>
+            <span data-copy="en">Scroll to explore three real systems</span>
+            <span aria-hidden="true">↓</span>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Work() {
   return (
     <section
@@ -260,6 +292,12 @@ function Work() {
             here I show my contribution and outcomes.
           </span>
         </p>
+      </div>
+
+      <div className="work-rail" aria-hidden="true">
+        <span className="work-rail-label">CASE STUDIES / <span className="work-rail-current">01</span> — 03</span>
+        <span className="work-rail-track"><span className="work-rail-fill"></span></span>
+        <span className="work-rail-arrow">↓</span>
       </div>
 
       <article
@@ -606,6 +644,10 @@ function Work() {
 function About() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
+      <div className="about-depth" aria-hidden="true">
+        <span>BUILD / CONNECT / SHIP</span>
+        <i></i><i></i><i></i>
+      </div>
       <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] about-grid">
         <div>
           <p className="section-kicker">02 / PROFILE</p>
@@ -680,6 +722,7 @@ function Contact() {
       id="contact"
       aria-labelledby="contact-title"
     >
+      <div className="contact-curtain" aria-hidden="true"><span>LET'S BUILD SOMETHING</span></div>
       <div className="contact-glow" aria-hidden="true"></div>
       <p className="section-kicker">03 / CONTACT</p>
       <div className="contact-grid grid">
@@ -770,6 +813,7 @@ function App() {
       <Header language={language} setLanguage={setLanguage} />
       <main id="main">
         <Hero />
+        <Interlude />
         <Work />
         <About />
         <Contact />
