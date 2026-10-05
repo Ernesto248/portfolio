@@ -110,57 +110,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               .to(".hero-depth-ring-two", { rotation: -48, scale: 1.5 }, 0)
               .to(".hero-depth-ring-three", { rotation: 72, scale: 1.3 }, 0);
 
-            gsap
-              .timeline({
-                scrollTrigger: {
-                  trigger: ".interlude-stage",
-                  start: "top top",
-                  end: "+=75%",
-                  scrub: 1,
-                  pin: true,
-                  anticipatePin: 1,
-                },
-                defaults: { ease: "none" },
-              })
-              .fromTo(
-                ".interlude-orbit",
-                { scale: 0.45, rotation: -30, opacity: 0.18 },
-                { scale: 1.3, rotation: 35, opacity: 0.85, duration: 1 },
-                0,
-              )
-              .fromTo(
-                ".interlude-content p",
-                { scale: 0.64, rotationX: 38, yPercent: 36, opacity: 0.2 },
-                { scale: 1, rotationX: 0, yPercent: 0, opacity: 1, duration: 0.72 },
-                0,
-              )
-              .to(".interlude-content p", { scale: 1.18, yPercent: -12, opacity: 0.38, duration: 0.28 }, 0.72)
-              .fromTo(
-                ".interlude-bottom",
-                { y: 35, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.45 },
-                0.4,
-              );
-
-            gsap.to(".work-rail-fill", {
-              scaleX: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".project-finance",
-                start: "top center",
-                endTrigger: ".project-raffle",
-                end: "bottom center",
-                scrub: true,
-              },
-            });
           } else {
-            gsap.from(".interlude-content > *", {
-              y: 30,
-              autoAlpha: 0,
-              stagger: 0.1,
-              duration: 0.8,
-              scrollTrigger: { trigger: ".interlude", start: "top 85%", once: true },
-            });
             gsap.to(".hero-depth-ring", {
               yPercent: 25,
               rotation: 25,
@@ -168,7 +118,61 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               ease: "none",
               scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
             });
+            gsap.to(".hero-proof", {
+              yPercent: 11,
+              rotationY: -6,
+              scale: 0.96,
+              ease: "none",
+              scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.8 },
+            });
           }
+
+          const interludeCount = scope.current?.querySelector<HTMLElement>(".interlude-count");
+          gsap.set(".interlude-beat-two, .interlude-beat-three", { autoAlpha: 0 });
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: ".interlude-stage",
+                start: "top top",
+                end: desktop ? "+=210%" : "+=175%",
+                scrub: desktop ? 0.9 : 0.5,
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                  if (interludeCount) {
+                    const chapter = self.progress < 0.34 ? "01" : self.progress < 0.68 ? "02" : "03";
+                    interludeCount.textContent = `${chapter} / 03`;
+                  }
+                },
+              },
+              defaults: { ease: "none" },
+            })
+            .fromTo(".interlude-grid", { yPercent: 18, scale: 1.22, opacity: 0.08 }, { yPercent: -18, scale: 0.9, opacity: 0.34, duration: 3 }, 0)
+            .fromTo(".interlude-light", { scale: 0.55, xPercent: -15 }, { scale: 1.7, xPercent: 18, duration: 3 }, 0)
+            .fromTo(".interlude-frame-back", { scale: 0.6, rotationY: -35, rotationX: 18, opacity: 0.22 }, { scale: 1.65, rotationY: 22, rotationX: -8, opacity: 0.12, duration: 3 }, 0)
+            .fromTo(".interlude-frame-middle", { scale: 0.42, rotationY: 32, rotationX: -14, opacity: 0.35 }, { scale: 1.8, rotationY: -20, rotationX: 9, opacity: 0.15, duration: 3 }, 0)
+            .fromTo(".interlude-frame-front", { scale: 0.18, rotationY: -24, rotationX: 18, opacity: 0.42 }, { scale: 2.4, rotationY: 24, rotationX: -12, opacity: 0.08, duration: 3 }, 0)
+            .fromTo(".interlude-core", { scale: 0.3, autoAlpha: 0 }, { scale: 2, autoAlpha: 0.4, duration: 0.8 }, 0)
+            .to(".interlude-core", { scale: 3, autoAlpha: 0, duration: 0.7 }, 0.8)
+            .fromTo(".interlude-beat-one", { y: 65, z: -200, rotationX: 17, autoAlpha: 0.4 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.42 }, 0)
+            .to(".interlude-beat-one", { y: -85, z: 180, rotationX: -12, autoAlpha: 0, duration: 0.35 }, 0.68)
+            .fromTo(".interlude-beat-two", { y: 85, z: -220, rotationX: 17, autoAlpha: 0 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.42 }, 1.02)
+            .to(".interlude-beat-two", { y: -85, z: 180, rotationX: -12, autoAlpha: 0, duration: 0.35 }, 1.68)
+            .fromTo(".interlude-beat-three", { y: 85, z: -220, rotationX: 17, autoAlpha: 0 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.5 }, 2.02)
+            .to(".interlude-progress-fill", { scaleX: 1, duration: 3 }, 0);
+
+          gsap.to(".work-rail-fill", {
+            scaleX: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".project-finance",
+              start: "top center",
+              endTrigger: ".project-raffle",
+              end: "bottom center",
+              scrub: true,
+            },
+          });
 
           gsap
             .timeline({
@@ -208,19 +212,19 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 ".finance-flow > div, .finance-flow > b, .erp-core, .erp-branches span, .erp-caption, .ticket-grid span, .raffle-count",
               );
 
-              if (desktop) {
-                const current = scope.current?.querySelector<HTMLElement>(".work-rail-current");
-                const setChapter = () => {
-                  if (current) current.textContent = String(index + 1).padStart(2, "0");
-                };
-                ScrollTrigger.create({
-                  trigger: project,
-                  start: "top center",
-                  end: "bottom center",
-                  onEnter: setChapter,
-                  onEnterBack: setChapter,
-                });
+              const current = scope.current?.querySelector<HTMLElement>(".work-rail-current");
+              const setChapter = () => {
+                if (current) current.textContent = String(index + 1).padStart(2, "0");
+              };
+              ScrollTrigger.create({
+                trigger: project,
+                start: "top center",
+                end: "bottom center",
+                onEnter: setChapter,
+                onEnterBack: setChapter,
+              });
 
+              if (desktop) {
                 gsap.timeline({
                   scrollTrigger: {
                     trigger: project,
@@ -256,52 +260,39 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 return;
               }
 
-              const scene = gsap.timeline({
-                scrollTrigger: {
-                  trigger: project,
-                  start: revealStart,
-                  once: true,
+              gsap.fromTo(visual,
+                { y: 46, rotationX: 12, rotationY: -7, scale: 0.91, autoAlpha: 0.72 },
+                {
+                  y: -20,
+                  rotationX: -4,
+                  rotationY: 4,
+                  scale: 1.02,
+                  autoAlpha: 1,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: project,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 0.65,
+                  },
                 },
-                defaults: { ease: "power3.out" },
+              );
+              gsap.from(details, {
+                y: 22,
+                autoAlpha: 0,
+                scale: 0.92,
+                duration: 0.7,
+                stagger: 0.055,
+                ease: "power3.out",
+                scrollTrigger: { trigger: project, start: revealStart, once: true },
               });
-
-              scene
-                .fromTo(
-                  visual,
-                  { clipPath: "inset(0 100% 0 0)", x: desktop ? -24 : 0 },
-                  {
-                    clipPath: "inset(0 0% 0 0)",
-                    x: 0,
-                    duration: 1.15,
-                    ease: "expo.inOut",
-                  },
-                )
-                .from(
-                  details,
-                  {
-                    y: desktop ? 30 : 18,
-                    autoAlpha: 0,
-                    scale: 0.94,
-                    duration: 0.65,
-                    stagger: 0.055,
-                  },
-                  "-=0.62",
-                )
-                .from(
-                  content.children,
-                  { y: travel, autoAlpha: 0, duration: 0.75, stagger: 0.095 },
-                  "-=0.92",
-                );
-
-              gsap.to(visual, {
-                y: -10,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: project,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 1.1,
-                },
+              gsap.from(content.children, {
+                y: travel,
+                autoAlpha: 0,
+                duration: 0.65,
+                stagger: 0.075,
+                ease: "power3.out",
+                scrollTrigger: { trigger: content, start: "top 90%", once: true },
               });
             });
 
@@ -345,18 +336,36 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               .fromTo(".about-grid > div:first-child", { y: 75 }, { y: -55 }, 0)
               .fromTo(".about-copy", { y: -45 }, { y: 75 }, 0)
               .fromTo(".capabilities span", { rotationX: -22, y: 25 }, { rotationX: 11, y: -20, stagger: 0.015 }, 0);
-
-            gsap.fromTo(".contact-curtain", { scaleY: 1 }, {
-              scaleY: 0,
+          } else {
+            gsap.fromTo(".about-depth > span", { xPercent: -18 }, {
+              xPercent: 18,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: ".about-section",
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 0.7,
+                },
+              });
+            gsap.fromTo(".about-depth i", { scale: 0.7, rotation: -20 }, {
+              scale: 1.3,
+              rotation: 22,
+              stagger: 0.06,
               ease: "none",
-              scrollTrigger: {
-                trigger: ".contact-section",
-                start: "top 85%",
-                end: "top 19%",
-                scrub: 0.8,
-              },
+              scrollTrigger: { trigger: ".about-section", start: "top bottom", end: "bottom top", scrub: 0.7 },
             });
           }
+
+          gsap.fromTo(".contact-curtain", { yPercent: 0 }, {
+            yPercent: -100,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".contact-section",
+              start: "top 88%",
+              end: desktop ? "top 19%" : "top 40%",
+              scrub: desktop ? 0.8 : 0.5,
+            },
+          });
 
           gsap
             .timeline({
