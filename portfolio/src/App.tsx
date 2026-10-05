@@ -249,18 +249,78 @@ function Interlude() {
       data-aria-en="Selected projects"
     >
       <div className="interlude-stage">
-        <div className="interlude-orbit" aria-hidden="true"></div>
+        <div className="interlude-space" aria-hidden="true">
+          <div className="interlude-grid"></div>
+          <div className="interlude-light"></div>
+          <div className="interlude-frame interlude-frame-back"></div>
+          <div className="interlude-frame interlude-frame-middle"></div>
+          <div className="interlude-frame interlude-frame-front"></div>
+          <div className="interlude-core"><span></span><span></span></div>
+          <span className="interlude-coordinate interlude-coordinate-left">40° 25′ N / 03° 42′ W</span>
+          <span className="interlude-coordinate interlude-coordinate-right">BUILD / 2026</span>
+        </div>
         <div className="interlude-content shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]">
-          <span className="interlude-kicker">01 — 03 / CASE STUDIES</span>
-          <p>
-            <span data-copy="es">Del problema al producto.</span>
-            <span data-copy="en">From problem to product.</span>
-          </p>
-          <span className="interlude-bottom">
-            <span data-copy="es">Desliza para explorar tres sistemas reales</span>
-            <span data-copy="en">Scroll to explore three real systems</span>
-            <span aria-hidden="true">↓</span>
-          </span>
+          <div className="interlude-topline">
+            <span>
+              <span data-copy="es">TRABAJO SELECCIONADO</span>
+              <span data-copy="en">SELECTED WORK</span>
+              {" / 2025 — 2026"}
+            </span>
+            <span className="interlude-topline-right">ERNESTO LEONARD / 01 — 03</span>
+          </div>
+          <div className="interlude-beats">
+            <div className="interlude-beat interlude-beat-one">
+              <span className="interlude-beat-number" aria-hidden="true">01</span>
+              <span className="interlude-step">
+                <span data-copy="es">01 / EXPLORAR</span>
+                <span data-copy="en">01 / DISCOVER</span>
+              </span>
+              <p>
+                <span data-copy="es">Entender el <em>problema.</em></span>
+                <span data-copy="en">Understand the <em>problem.</em></span>
+              </p>
+              <span className="interlude-caption">
+                <span data-copy="es">Cada proyecto empieza por el proceso real.</span>
+                <span data-copy="en">Every project starts with the real workflow.</span>
+              </span>
+            </div>
+            <div className="interlude-beat interlude-beat-two">
+              <span className="interlude-beat-number" aria-hidden="true">02</span>
+              <span className="interlude-step">
+                <span data-copy="es">02 / DISEÑAR</span>
+                <span data-copy="en">02 / DESIGN</span>
+              </span>
+              <p>
+                <span data-copy="es">Diseñar el <em>sistema.</em></span>
+                <span data-copy="en">Design the <em>system.</em></span>
+              </p>
+              <span className="interlude-caption">
+                <span data-copy="es">Interfaces, datos y lógica que encajan.</span>
+                <span data-copy="en">Interfaces, data and logic that fit together.</span>
+              </span>
+            </div>
+            <div className="interlude-beat interlude-beat-three">
+              <span className="interlude-beat-number" aria-hidden="true">03</span>
+              <span className="interlude-step">
+                <span data-copy="es">03 / ENTREGAR</span>
+                <span data-copy="en">03 / DELIVER</span>
+              </span>
+              <p>
+                <span data-copy="es">Mostrar el <em>impacto.</em></span>
+                <span data-copy="en">Show the <em>impact.</em></span>
+              </p>
+              <span className="interlude-caption">
+                <span data-copy="es">Tres casos reales, de principio a fin.</span>
+                <span data-copy="en">Three real cases, from start to finish.</span>
+              </span>
+            </div>
+          </div>
+          <div className="interlude-bottom">
+            <span data-copy="es">Desliza para avanzar</span>
+            <span data-copy="en">Scroll to advance</span>
+            <span className="interlude-progress" aria-hidden="true"><span className="interlude-progress-fill"></span></span>
+            <span className="interlude-count">01 / 03</span>
+          </div>
         </div>
       </div>
     </section>
@@ -295,7 +355,11 @@ function Work() {
       </div>
 
       <div className="work-rail" aria-hidden="true">
-        <span className="work-rail-label">CASE STUDIES / <span className="work-rail-current">01</span> — 03</span>
+        <span className="work-rail-label">
+          <span data-copy="es">CASOS</span>
+          <span data-copy="en">CASE STUDIES</span>
+          {" / "}<span className="work-rail-current">01</span> — 03
+        </span>
         <span className="work-rail-track"><span className="work-rail-fill"></span></span>
         <span className="work-rail-arrow">↓</span>
       </div>
@@ -722,7 +786,10 @@ function Contact() {
       id="contact"
       aria-labelledby="contact-title"
     >
-      <div className="contact-curtain" aria-hidden="true"><span>LET'S BUILD SOMETHING</span></div>
+      <div className="contact-curtain" aria-hidden="true">
+        <span data-copy="es">CONSTRUYAMOS ALGO</span>
+        <span data-copy="en">LET'S BUILD SOMETHING</span>
+      </div>
       <div className="contact-glow" aria-hidden="true"></div>
       <p className="section-kicker">03 / CONTACT</p>
       <div className="contact-grid grid">
