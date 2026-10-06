@@ -139,41 +139,6 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
             });
           }
 
-          const interludeCount = scope.current?.querySelector<HTMLElement>(".interlude-count");
-          gsap.set(".interlude-beat-two, .interlude-beat-three", { autoAlpha: 0 });
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: ".interlude-stage",
-                start: "top top",
-                end: desktop ? "+=210%" : "+=175%",
-                scrub: desktop ? 0.9 : 0.5,
-                pin: true,
-                anticipatePin: 1,
-                invalidateOnRefresh: true,
-                onUpdate: (self) => {
-                  if (interludeCount) {
-                    const chapter = self.progress < 0.34 ? "01" : self.progress < 0.68 ? "02" : "03";
-                    interludeCount.textContent = `${chapter} / 03`;
-                  }
-                },
-              },
-              defaults: { ease: "none" },
-            })
-            .fromTo(".interlude-grid", { yPercent: 18, scale: 1.22, opacity: 0.08 }, { yPercent: -18, scale: 0.9, opacity: 0.34, duration: 3 }, 0)
-            .fromTo(".interlude-light", { scale: 0.55, xPercent: -15 }, { scale: 1.7, xPercent: 18, duration: 3 }, 0)
-            .fromTo(".interlude-frame-back", { scale: 0.6, rotationY: -35, rotationX: 18, opacity: 0.22 }, { scale: 1.65, rotationY: 22, rotationX: -8, opacity: 0.12, duration: 3 }, 0)
-            .fromTo(".interlude-frame-middle", { scale: 0.42, rotationY: 32, rotationX: -14, opacity: 0.35 }, { scale: 1.8, rotationY: -20, rotationX: 9, opacity: 0.15, duration: 3 }, 0)
-            .fromTo(".interlude-frame-front", { scale: 0.18, rotationY: -24, rotationX: 18, opacity: 0.42 }, { scale: 2.4, rotationY: 24, rotationX: -12, opacity: 0.08, duration: 3 }, 0)
-            .fromTo(".interlude-core", { scale: 0.3, autoAlpha: 0 }, { scale: 2, autoAlpha: 0.4, duration: 0.8 }, 0)
-            .to(".interlude-core", { scale: 3, autoAlpha: 0, duration: 0.7 }, 0.8)
-            .fromTo(".interlude-beat-one", { y: 65, z: -200, rotationX: 17, autoAlpha: 0.4 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.42 }, 0)
-            .to(".interlude-beat-one", { y: -85, z: 180, rotationX: -12, autoAlpha: 0, duration: 0.35 }, 0.68)
-            .fromTo(".interlude-beat-two", { y: 85, z: -220, rotationX: 17, autoAlpha: 0 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.42 }, 1.02)
-            .to(".interlude-beat-two", { y: -85, z: 180, rotationX: -12, autoAlpha: 0, duration: 0.35 }, 1.68)
-            .fromTo(".interlude-beat-three", { y: 85, z: -220, rotationX: 17, autoAlpha: 0 }, { y: 0, z: 0, rotationX: 0, autoAlpha: 1, duration: 0.5 }, 2.02)
-            .to(".interlude-progress-fill", { scaleX: 1, duration: 3 }, 0);
-
           gsap.to(".work-rail-fill", {
             scaleX: 1,
             ease: "none",
@@ -307,66 +272,6 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 scrollTrigger: { trigger: content, start: "top 90%", once: true },
               });
             });
-
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: ".about-section",
-                start: revealStart,
-                once: true,
-              },
-              defaults: { ease: "power3.out" },
-            })
-            .from(".about-section .section-kicker", {
-              y: 18,
-              autoAlpha: 0,
-              duration: 0.55,
-            })
-            .from(
-              ".about-grid h2",
-              { y: travel, autoAlpha: 0, duration: 0.9 },
-              "-=0.25",
-            )
-            .from(
-              ".about-copy > *",
-              { y: 26, autoAlpha: 0, duration: 0.7, stagger: 0.12 },
-              "-=0.55",
-            )
-            .from(
-              ".capabilities span",
-              { y: 24, autoAlpha: 0, duration: 0.6, stagger: 0.065 },
-              "-=0.28",
-            );
-
-          if (desktop) {
-            gsap.timeline({
-              scrollTrigger: { trigger: ".about-section", start: "top bottom", end: "bottom top", scrub: 1 },
-              defaults: { ease: "none" },
-            })
-              .fromTo(".about-depth > span", { xPercent: -10, rotationY: -12 }, { xPercent: 14, rotationY: 9 }, 0)
-              .fromTo(".about-depth i", { scale: 0.55, rotation: -30 }, { scale: 1.5, rotation: 36, stagger: 0.08 }, 0)
-              .fromTo(".about-grid > div:first-child", { y: 75 }, { y: -55 }, 0)
-              .fromTo(".about-copy", { y: -45 }, { y: 75 }, 0)
-              .fromTo(".capabilities span", { rotationX: -22, y: 25 }, { rotationX: 11, y: -20, stagger: 0.015 }, 0);
-          } else {
-            gsap.fromTo(".about-depth > span", { xPercent: -18 }, {
-              xPercent: 18,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: ".about-section",
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 0.7,
-                },
-              });
-            gsap.fromTo(".about-depth i", { scale: 0.7, rotation: -20 }, {
-              scale: 1.3,
-              rotation: 22,
-              stagger: 0.06,
-              ease: "none",
-              scrollTrigger: { trigger: ".about-section", start: "top bottom", end: "bottom top", scrub: 0.7 },
-            });
-          }
 
           gsap.fromTo(".contact-curtain", { yPercent: 0 }, {
             yPercent: -100,

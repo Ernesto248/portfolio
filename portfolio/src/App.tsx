@@ -11,12 +11,13 @@ import {
 import { Menu } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePortfolioMotion } from "./usePortfolioMotion";
+import { CareerAbout } from "./CareerAbout";
 
 type Language = "es" | "en";
 
 const descriptions: Record<Language, string> = {
-  es: "Ernesto Leonard Escariz, desarrollador full stack. Aplicaciones web, automatización y sistemas de negocio en producción.",
-  en: "Ernesto Leonard Escariz, full stack developer. Web applications, automation and production business systems.",
+  es: "Leonard Solutions, el portfolio de Ernesto Leonard Escariz. Aplicaciones web, automatización y sistemas de negocio en producción.",
+  en: "Leonard Solutions, the portfolio of Ernesto Leonard Escariz. Web applications, automation and production business systems.",
 };
 
 function initialLanguage(): Language {
@@ -43,9 +44,9 @@ function Header({
         <a
           className="brand"
           href="#top"
-          aria-label="Ernesto Leonard Escariz, inicio"
+          aria-label={language === "es" ? "Leonard Solutions, inicio" : "Leonard Solutions, home"}
         >
-          E<span className="brand-dot">.</span>L
+          LEONARD<span className="brand-dot">/</span>SOLUTIONS
         </a>
         <nav
           className="main-nav"
@@ -53,13 +54,13 @@ function Header({
           data-aria-es="Navegación principal"
           data-aria-en="Main navigation"
         >
-          <a href="#work">
-            <span data-copy="es">Proyectos</span>
-            <span data-copy="en">Work</span>
-          </a>
           <a href="#about">
             <span data-copy="es">Sobre mí</span>
             <span data-copy="en">About</span>
+          </a>
+          <a href="#work">
+            <span data-copy="es">Proyectos</span>
+            <span data-copy="en">Work</span>
           </a>
           <a href="#contact">
             <span data-copy="es">Contacto</span>
@@ -92,11 +93,11 @@ function Header({
                   }
                   className="mt-16 flex flex-col gap-7 text-xl font-bold"
                 >
-                  <a href="#work" onClick={() => setMenuOpen(false)}>
-                    {language === "es" ? "Proyectos" : "Work"}
-                  </a>
                   <a href="#about" onClick={() => setMenuOpen(false)}>
                     {language === "es" ? "Sobre mí" : "About"}
+                  </a>
+                  <a href="#work" onClick={() => setMenuOpen(false)}>
+                    {language === "es" ? "Proyectos" : "Work"}
                   </a>
                   <a href="#contact" onClick={() => setMenuOpen(false)}>
                     {language === "es" ? "Contacto" : "Contact"}
@@ -156,7 +157,7 @@ function Hero() {
         <div className="hero-orbit hero-orbit-one"></div>
         <div className="hero-orbit hero-orbit-two"></div>
         <div className="hero-core">
-          <span className="hero-core-mark">E<span>/</span>L</span>
+          <span className="hero-core-mark">L<span>/</span>S</span>
           <span className="hero-core-caption">DESIGN / ENGINEER / SHIP</span>
         </div>
         <span className="hero-coordinate hero-coordinate-top">39.4699° N / 0.3763° W</span>
@@ -200,97 +201,10 @@ function Hero() {
         </div>
       </div>
       <div className="hero-bottom shell">
-        <span>01 / 05</span>
+        <span>01 / 04</span>
         <span className="scroll-line" aria-hidden="true"></span>
         <span data-copy="es">DESLIZA PARA EXPLORAR</span>
         <span data-copy="en">SCROLL TO EXPLORE</span>
-      </div>
-    </section>
-  );
-}
-
-function Interlude() {
-  return (
-    <section
-      className="interlude"
-      aria-label="Proyectos seleccionados"
-      data-aria-es="Proyectos seleccionados"
-      data-aria-en="Selected projects"
-    >
-      <div className="interlude-stage">
-        <div className="interlude-space" aria-hidden="true">
-          <div className="interlude-grid"></div>
-          <div className="interlude-light"></div>
-          <div className="interlude-frame interlude-frame-back"></div>
-          <div className="interlude-frame interlude-frame-middle"></div>
-          <div className="interlude-frame interlude-frame-front"></div>
-          <div className="interlude-core"><span></span><span></span></div>
-          <span className="interlude-coordinate interlude-coordinate-left">40° 25′ N / 03° 42′ W</span>
-          <span className="interlude-coordinate interlude-coordinate-right">BUILD / 2026</span>
-        </div>
-        <div className="interlude-content shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]">
-          <div className="interlude-topline">
-            <span>
-              <span data-copy="es">TRABAJO SELECCIONADO</span>
-              <span data-copy="en">SELECTED WORK</span>
-              {" / 2025 — 2026"}
-            </span>
-            <span className="interlude-topline-right">ERNESTO LEONARD / 01 — 03</span>
-          </div>
-          <div className="interlude-beats">
-            <div className="interlude-beat interlude-beat-one">
-              <span className="interlude-beat-number" aria-hidden="true">01</span>
-              <span className="interlude-step">
-                <span data-copy="es">01 / EXPLORAR</span>
-                <span data-copy="en">01 / DISCOVER</span>
-              </span>
-              <p>
-                <span data-copy="es">Entender el <em>problema.</em></span>
-                <span data-copy="en">Understand the <em>problem.</em></span>
-              </p>
-              <span className="interlude-caption">
-                <span data-copy="es">Cada proyecto empieza por el proceso real.</span>
-                <span data-copy="en">Every project starts with the real workflow.</span>
-              </span>
-            </div>
-            <div className="interlude-beat interlude-beat-two">
-              <span className="interlude-beat-number" aria-hidden="true">02</span>
-              <span className="interlude-step">
-                <span data-copy="es">02 / DISEÑAR</span>
-                <span data-copy="en">02 / DESIGN</span>
-              </span>
-              <p>
-                <span data-copy="es">Diseñar el <em>sistema.</em></span>
-                <span data-copy="en">Design the <em>system.</em></span>
-              </p>
-              <span className="interlude-caption">
-                <span data-copy="es">Interfaces, datos y lógica que encajan.</span>
-                <span data-copy="en">Interfaces, data and logic that fit together.</span>
-              </span>
-            </div>
-            <div className="interlude-beat interlude-beat-three">
-              <span className="interlude-beat-number" aria-hidden="true">03</span>
-              <span className="interlude-step">
-                <span data-copy="es">03 / ENTREGAR</span>
-                <span data-copy="en">03 / DELIVER</span>
-              </span>
-              <p>
-                <span data-copy="es">Mostrar el <em>impacto.</em></span>
-                <span data-copy="en">Show the <em>impact.</em></span>
-              </p>
-              <span className="interlude-caption">
-                <span data-copy="es">Tres casos reales, de principio a fin.</span>
-                <span data-copy="en">Three real cases, from start to finish.</span>
-              </span>
-            </div>
-          </div>
-          <div className="interlude-bottom">
-            <span data-copy="es">Desliza para avanzar</span>
-            <span data-copy="en">Scroll to advance</span>
-            <span className="interlude-progress" aria-hidden="true"><span className="interlude-progress-fill"></span></span>
-            <span className="interlude-count">01 / 03</span>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -305,7 +219,7 @@ function Work() {
     >
       <div className="section-heading flex justify-between">
         <div>
-          <p className="section-kicker">01 / WORK</p>
+          <p className="section-kicker">03 / WORK</p>
           <h2 id="work-title">
             <span data-copy="es">Proyectos con impacto real.</span>
             <span data-copy="en">Work with real impact.</span>
@@ -674,80 +588,6 @@ function Work() {
   );
 }
 
-function About() {
-  return (
-    <section className="about-section" id="about" aria-labelledby="about-title">
-      <div className="about-depth" aria-hidden="true">
-        <span>BUILD / CONNECT / SHIP</span>
-        <i></i><i></i><i></i>
-      </div>
-      <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] about-grid">
-        <div>
-          <p className="section-kicker">02 / PROFILE</p>
-          <h2 id="about-title">
-            <span data-copy="es">
-              Entre la interfaz y la lógica de negocio.
-            </span>
-            <span data-copy="en">Between interface and business logic.</span>
-          </h2>
-        </div>
-        <div className="about-copy">
-          <p>
-            <span data-copy="es">
-              Soy ingeniero informático y desarrollador full stack. Me gusta
-              convertir procesos difíciles de seguir en herramientas claras,
-              verificables y útiles para quienes las usan cada día.
-            </span>
-            <span data-copy="en">
-              I'm a computer engineering graduate and full stack developer. I
-              turn hard-to-follow processes into clear, verifiable tools for the
-              people who use them every day.
-            </span>
-          </p>
-          <p>
-            <span data-copy="es">
-              He trabajado de forma independiente con clientes privados,
-              asumiendo desarrollo, despliegue y mantenimiento. Mi trabajo
-              combina React y Next.js con APIs, bases de datos y automatización.
-            </span>
-            <span data-copy="en">
-              I've worked independently with private clients, owning
-              development, deployment and maintenance. My work combines React
-              and Next.js with APIs, databases and automation.
-            </span>
-          </p>
-          <div className="about-links">
-            <a
-              href="https://www.linkedin.com/in/ernesto-leonard-escariz-747685252/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href="https://github.com/Ernesto248"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub ↗
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] capabilities">
-        <span>TypeScript</span>
-        <span>React</span>
-        <span>Next.js</span>
-        <span>Node.js</span>
-        <span>Java</span>
-        <span>Spring Boot</span>
-        <span>PostgreSQL</span>
-        <span>Supabase</span>
-      </div>
-    </section>
-  );
-}
-
 function Contact({ language }: { language: Language }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const startedAt = useRef(Date.now());
@@ -793,7 +633,7 @@ function Contact({ language }: { language: Language }) {
         <span data-copy="en">LET'S BUILD SOMETHING</span>
       </div>
       <div className="contact-glow" aria-hidden="true"></div>
-      <p className="section-kicker">03 / CONTACT</p>
+      <p className="section-kicker">04 / CONTACT</p>
       <div className="contact-grid grid">
         <div className="contact-copy">
           <h2 id="contact-title">
@@ -857,8 +697,7 @@ function Footer() {
     <footer className="site-footer">
       <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] footer-inner">
         <span>
-          © <span id="year">{new Date().getFullYear()}</span> Ernesto Leonard
-          Escariz
+          © <span id="year">{new Date().getFullYear()}</span> Leonard Solutions
         </span>
         <span>
           <span data-copy="es">
@@ -915,9 +754,8 @@ function App() {
       <Header language={language} setLanguage={setLanguage} />
       <main id="main">
         <Hero />
-        <Interlude />
+        <CareerAbout language={language} />
         <Work />
-        <About />
         <Contact language={language} />
       </main>
       <Footer />

@@ -1,0 +1,98 @@
+.career-about {
+  position: relative;
+  background: #06151c;
+  color: #eff9f5;
+}
+
+.career-about-heading {
+  position: relative;
+  padding-top: clamp(96px, 15vw, 180px);
+  padding-bottom: clamp(58px, 7vw, 95px);
+  background: #06151c;
+}
+
+.career-about-heading::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 70px;
+  content: "";
+  background: linear-gradient(#4d9996, transparent);
+}
+
+.career-about-kicker {
+  margin-bottom: 32px;
+  color: #91e6d8;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.career-about-heading-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  gap: 60px;
+  align-items: end;
+}
+
+.career-about-heading h2 {
+  max-width: 800px;
+  margin: 0;
+  font-size: clamp(56px, 8vw, 116px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.078em;
+  text-wrap: balance;
+}
+
+.career-about-heading-grid > p {
+  max-width: 310px;
+  margin: 0 0 9px;
+  color: #aacbc9;
+  font-size: clamp(15px, 1.35vw, 18px);
+  line-height: 1.55;
+}
+
+.career-about-outro {
+  height: clamp(180px, 25vw, 300px);
+  background: linear-gradient(180deg, #081b22 0%, #153239 39%, #f6f7f4 100%);
+}
+
+.career-about-outro-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  padding-top: 43px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.career-about-outro a {
+  color: #c6e9e1;
+  text-decoration: none;
+  border-bottom: 1px solid #75aaa5;
+  padding-bottom: 5px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.career-about-outro a:hover,
+.career-about-outro a:focus-visible {
+  color: #fff;
+  border-color: #fff;
+}
+
+.career-about-outro a:last-child { margin-left: auto; }
+
+@media (max-width: 700px) {
+  .career-about-heading { padding-top: 100px; padding-bottom: 35px; }
+  .career-about-kicker { margin-bottom: 22px; }
+  .career-about-heading-grid { grid-template-columns: 1fr; gap: 22px; }
+  .career-about-heading h2 { font-size: clamp(46px, 13vw, 70px); }
+  .career-about-heading-grid > p { max-width: 350px; font-size: 14px; }
+  .career-about-outro { height: 195px; }
+  .career-about-outro-inner { flex-wrap: wrap; gap: 16px 25px; padding-top: 32px; font-size: 10px; }
+  .career-about-outro a:last-child { width: 100%; margin: 3px 0 0; }
+}
