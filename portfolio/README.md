@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# Ernesto Leonard — portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio bilingüe hecho con React, Vite, Tailwind, shadcn/ui y GSAP. Vercel despliega esta carpeta (`portfolio`) como directorio raíz.
 
-Currently, two official plugins are available:
+## Desarrollo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+pnpm install
+pnpm dev
+pnpm lint
+pnpm build
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+`pnpm build` comprueba el frontend y la función de contacto antes de generar los archivos estáticos. El servidor de Vite sirve el frontend; la ruta `/api/contact` se ejecuta como Vercel Function en una vista previa o despliegue de Vercel.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Formulario de contacto
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+La función `api/contact.ts` envía mensajes de texto a la dirección fija del portfolio mediante Resend. El navegador nunca recibe la clave API. Configura estas variables en el proyecto `portfolio` de Vercel para **Production** y **Preview**:
+
+| Variable | Valor |
+| --- | --- |
+| `RESEND_API_KEY` | Clave secreta creada por la integración de Resend |
+| `RESEND_FROM_EMAIL` | `Portfolio <contact@leonardsolutions.dev>` |
+
+Antes de activar el envío, verifica `leonardsolutions.dev` en Resend y confirma sus registros DNS. El formulario mantiene un enlace `mailto:` como alternativa si el servicio no está disponible. El endpoint valida el origen, longitud, correo y tiempo de envío, e incluye un campo trampa contra bots básicos.
+
+Las habilidades y datos profesionales públicos deben cotejarse con el perfil maestro del proyecto privado Job Leads antes de actualizar el contenido.
