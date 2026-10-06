@@ -47,27 +47,14 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 "-=0.56",
               )
               .from(
+                ".hero-visual",
+                { scale: 0.8, rotationY: -18, autoAlpha: 0, duration: 1.45, ease: "expo.out" },
+                "-=0.85",
+              )
+              .from(
                 ".hero-links > *",
                 { y: 22, autoAlpha: 0, duration: 0.65, stagger: 0.11 },
                 "-=0.48",
-              )
-              .from(
-                ".hero-proof",
-                {
-                  x: desktop ? 90 : 24,
-                  y: 35,
-                  rotation: desktop ? 7 : 0,
-                  scale: 0.92,
-                  autoAlpha: 0,
-                  duration: 1.1,
-                  ease: "expo.out",
-                },
-                "-=0.95",
-              )
-              .from(
-                ".proof-topline, .proof-label, .proof-number, .proof-description, .proof-rule, .proof-footer",
-                { y: 15, autoAlpha: 0, duration: 0.55, stagger: 0.075 },
-                "-=0.7",
               )
               .from(
                 ".hero-bottom",
@@ -80,6 +67,41 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 "-=0.55",
               );
           }
+
+          const ambient = [gsap.to(".hero-orbit-one", {
+            rotation: "+=360",
+            duration: 34,
+            ease: "none",
+            repeat: -1,
+            paused: true,
+          }), gsap.to(".hero-orbit-two", {
+            rotation: "-=360",
+            duration: 27,
+            ease: "none",
+            repeat: -1,
+            paused: true,
+          }), gsap.to(".hero-halo-outer", {
+            scale: 1.18,
+            opacity: 0.58,
+            duration: 4.5,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            paused: true,
+          }), gsap.to(".hero-core", {
+            y: -10,
+            duration: 4,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            paused: true,
+          })];
+          ScrollTrigger.create({
+            trigger: ".hero",
+            start: "top bottom",
+            end: "bottom top",
+            onToggle: (self) => ambient.forEach((tween) => self.isActive ? tween.play() : tween.pause()),
+          });
 
           gsap.to(".hero-atmosphere", {
             yPercent: 38,
@@ -105,23 +127,13 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 defaults: { ease: "none" },
               })
               .to(".hero-copy", { yPercent: -18, rotationX: 7, scale: 0.94 }, 0)
-              .to(".hero-proof", { yPercent: 20, rotationY: -14, rotationX: 7, scale: 0.86 }, 0)
-              .to(".hero-depth-ring-one", { rotation: 35, scale: 1.7, autoAlpha: 0.12 }, 0)
-              .to(".hero-depth-ring-two", { rotation: -48, scale: 1.5 }, 0)
-              .to(".hero-depth-ring-three", { rotation: 72, scale: 1.3 }, 0);
+              .to(".hero-visual", { yPercent: 13, rotationY: -11, scale: 1.13 }, 0)
+              .to(".hero-grid-plane", { yPercent: -13, autoAlpha: 0.13 }, 0);
 
           } else {
-            gsap.to(".hero-depth-ring", {
-              yPercent: 25,
-              rotation: 25,
-              stagger: 0.08,
-              ease: "none",
-              scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
-            });
-            gsap.to(".hero-proof", {
-              yPercent: 11,
-              rotationY: -6,
-              scale: 0.96,
+            gsap.to(".hero-visual", {
+              yPercent: 12,
+              scale: 1.1,
               ease: "none",
               scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.8 },
             });
@@ -387,9 +399,14 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               "-=0.22",
             )
             .from(
-              ".contact-grid p, .contact-email",
+              ".contact-copy p, .contact-email",
               { y: 26, autoAlpha: 0, duration: 0.72, stagger: 0.14 },
               "-=0.55",
+            )
+            .from(
+              ".contact-form",
+              { y: 36, autoAlpha: 0, duration: 0.9 },
+              "-=0.6",
             )
             .from(
               ".contact-glow",

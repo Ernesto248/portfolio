@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -80,7 +81,7 @@ function Header({
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[min(85vw,340px)] bg-[#f6f7f4] p-8 text-[#111b2b]"
+                className="w-[min(85vw,340px)] border-[#214b50] bg-[#081b22] p-8 text-[#e8f7f2]"
               >
                 <SheetTitle className="sr-only">
                   {language === "es" ? "Navegación" : "Navigation"}
@@ -132,7 +133,7 @@ function Header({
           <Button asChild className="rounded-none h-auto">
             <a
               className="header-contact"
-              href="mailto:ernestoleonard8@gmail.com"
+              href="#contact"
             >
               <span data-copy="es">Hablemos</span>
               <span data-copy="en">Let's talk</span>
@@ -148,93 +149,61 @@ function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-atmosphere" aria-hidden="true"></div>
-      <div className="hero-depth" aria-hidden="true">
-        <span className="hero-depth-ring hero-depth-ring-one"></span>
-        <span className="hero-depth-ring hero-depth-ring-two"></span>
-        <span className="hero-depth-ring hero-depth-ring-three"></span>
+      <div className="hero-grid-plane" aria-hidden="true"></div>
+      <div className="hero-visual" aria-hidden="true">
+        <div className="hero-halo hero-halo-outer"></div>
+        <div className="hero-halo hero-halo-inner"></div>
+        <div className="hero-orbit hero-orbit-one"></div>
+        <div className="hero-orbit hero-orbit-two"></div>
+        <div className="hero-core">
+          <span className="hero-core-mark">E<span>/</span>L</span>
+          <span className="hero-core-caption">DESIGN / ENGINEER / SHIP</span>
+        </div>
+        <span className="hero-coordinate hero-coordinate-top">39.4699° N / 0.3763° W</span>
+        <span className="hero-coordinate hero-coordinate-bottom">SYSTEM / ACTIVE_</span>
       </div>
       <div className="shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)] hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">
             <span className="eyebrow-mark" aria-hidden="true"></span>
-            <span data-copy="es">
-              Desarrollador full stack · Valencia, España
-            </span>
-            <span data-copy="en">Full stack developer · Valencia, Spain</span>
+            <span data-copy="es">ERNESTO LEONARD / FULL STACK</span>
+            <span data-copy="en">ERNESTO LEONARD / FULL STACK</span>
           </p>
           <h1 id="hero-title">
             <span data-copy="es">
-              Construyo software que <em>organiza</em> lo complejo.
+              Construyo <em>sistemas reales.</em>
             </span>
             <span data-copy="en">
-              I build software that <em>makes sense</em> of complexity.
+              I build <em>real systems.</em>
             </span>
           </h1>
           <p className="hero-intro">
             <span data-copy="es">
-              Soy Ernesto Leonard Escariz. Desarrollo aplicaciones web de
-              principio a fin: interfaces claras, datos fiables y procesos que
-              funcionan en el día a día.
+              De la interfaz a los datos. Software pensado para funcionar en el mundo real.
             </span>
             <span data-copy="en">
-              I'm Ernesto Leonard Escariz. I build web applications end to end:
-              clear interfaces, reliable data and workflows that hold up in
-              daily use.
+              From interface to data. Software built to work in the real world.
             </span>
           </p>
           <div className="hero-links">
             <a className="button button-primary" href="#work">
               <span data-copy="es">Ver proyectos</span>
-              <span data-copy="en">Explore my work</span>
+              <span data-copy="en">View projects</span>
               <span aria-hidden="true">↘</span>
             </a>
-            <a
-              className="text-link"
-              href="https://github.com/Ernesto248"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub <span aria-hidden="true">↗</span>
+            <a className="text-link" href="#contact">
+              <span data-copy="es">Hablemos</span>
+              <span data-copy="en">Let's talk</span>
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
-        <aside
-          className="hero-proof"
-          aria-label="Trayectoria"
-          data-aria-es="Trayectoria"
-          data-aria-en="Experience"
-        >
-          <div className="proof-topline">
-            <span>01 / 03</span>
-            <span>2025 — 2026</span>
-          </div>
-          <p className="proof-label">
-            <span data-copy="es">Experiencia en producción</span>
-            <span data-copy="en">Production experience</span>
-          </p>
-          <div className="proof-number">07</div>
-          <p className="proof-description">
-            <span data-copy="es">
-              aplicaciones web pagadas entregadas de extremo a extremo; cinco
-              seguían en uso en octubre de 2026.
-            </span>
-            <span data-copy="en">
-              paid web applications delivered end to end; five remained in use
-              in October 2026.
-            </span>
-          </p>
-          <div className="proof-rule"></div>
-          <div className="proof-footer">
-            <span>React / Next.js</span>
-            <span>TypeScript / PostgreSQL</span>
-          </div>
-        </aside>
       </div>
       <div className="hero-bottom shell">
-        <span data-copy="es">Trabajo seleccionado</span>
-        <span data-copy="en">Selected work</span>
+        <span>01 / 05</span>
         <span className="scroll-line" aria-hidden="true"></span>
-        <span>2025 — 2026</span>
+        <span data-copy="es">DESLIZA PARA EXPLORAR</span>
+        <span data-copy="en">SCROLL TO EXPLORE</span>
       </div>
     </section>
   );
@@ -779,7 +748,40 @@ function About() {
   );
 }
 
-function Contact() {
+function Contact({ language }: { language: Language }) {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const startedAt = useRef(Date.now());
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          email: data.get("email"),
+          message: data.get("message"),
+          website: data.get("website"),
+          startedAt: startedAt.current,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Contact delivery failed");
+      form.reset();
+      startedAt.current = Date.now();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <section
       className="contact-section shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]"
@@ -793,11 +795,11 @@ function Contact() {
       <div className="contact-glow" aria-hidden="true"></div>
       <p className="section-kicker">03 / CONTACT</p>
       <div className="contact-grid grid">
-        <h2 id="contact-title">
-          <span data-copy="es">¿Construimos algo que importe?</span>
-          <span data-copy="en">Let's build something that matters.</span>
-        </h2>
-        <div>
+        <div className="contact-copy">
+          <h2 id="contact-title">
+            <span data-copy="es">¿Construimos algo que importe?</span>
+            <span data-copy="en">Let's build something that matters.</span>
+          </h2>
           <p>
             <span data-copy="es">
               Abierto a oportunidades de desarrollo full stack y a conversar
@@ -812,6 +814,39 @@ function Contact() {
             ernestoleonard8@gmail.com <span aria-hidden="true">↗</span>
           </a>
         </div>
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <p className="contact-form-kicker">{language === "es" ? "MENSAJE DIRECTO / 01" : "DIRECT MESSAGE / 01"}</p>
+          <div className="contact-form-row">
+            <label>
+              <span>{language === "es" ? "Tu nombre" : "Your name"}</span>
+              <input name="name" autoComplete="name" required maxLength={100} placeholder={language === "es" ? "¿Cómo te llamas?" : "What's your name?"} />
+            </label>
+            <label>
+              <span>Email</span>
+              <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="tu@empresa.com" />
+            </label>
+          </div>
+          <label>
+            <span>{language === "es" ? "Cuéntame tu idea" : "Tell me about your idea"}</span>
+            <textarea name="message" required minLength={10} maxLength={4000} rows={5} placeholder={language === "es" ? "Proyecto, colaboración u oportunidad..." : "Project, collaboration or opportunity..."} />
+          </label>
+          <div className="contact-honeypot" aria-hidden="true">
+            <label>Website <input name="website" tabIndex={-1} autoComplete="off" /></label>
+          </div>
+          <button className="contact-submit" type="submit" disabled={status === "sending"}>
+            {status === "sending"
+              ? (language === "es" ? "Enviando..." : "Sending...")
+              : (language === "es" ? "Enviar mensaje" : "Send message")}
+            <span aria-hidden="true">↗</span>
+          </button>
+          <p className="contact-feedback" role="status" aria-live="polite">
+            {status === "sent"
+              ? (language === "es" ? "Mensaje enviado. Te responderé pronto." : "Message sent. I'll get back to you soon.")
+              : status === "error"
+                ? (language === "es" ? "No se pudo enviar. Escríbeme al correo de la izquierda." : "Couldn't send. Please use the email on the left.")
+                : "\u00a0"}
+          </p>
+        </form>
       </div>
     </section>
   );
@@ -883,7 +918,7 @@ function App() {
         <Interlude />
         <Work />
         <About />
-        <Contact />
+        <Contact language={language} />
       </main>
       <Footer />
     </div>
