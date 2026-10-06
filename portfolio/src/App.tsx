@@ -717,6 +717,7 @@ function Footer() {
 function App() {
   const [language, setLanguage] = useState<Language>(initialLanguage);
   const page = useRef<HTMLDivElement>(null);
+  const initialHashHandled = useRef(false);
   usePortfolioMotion(page);
 
   useEffect(() => {
@@ -741,7 +742,17 @@ function App() {
     if (language === "en") url.searchParams.set("lang", "en");
     else url.searchParams.delete("lang");
     window.history.replaceState(null, "", url);
-    const frame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+    const frame = window.requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      if (initialHashHandled.current) return;
+      initialHashHandled.current = true;
+      const section = window.location.hash.slice(1);
+      if (!["top", "about", "work", "contact"].includes(section)) return;
+      const previousBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = "auto";
+      document.getElementById(section)?.scrollIntoView({ block: "start" });
+      document.documentElement.style.scrollBehavior = previousBehavior;
+    });
     return () => window.cancelAnimationFrame(frame);
   }, [language]);
 
