@@ -7,7 +7,7 @@ import "./works-wheel.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export type WorksWheelArt = "portrait" | "interface" | "operations" | "finance" | "launch";
+export type WorksWheelArt = "portrait" | "studio" | "operations" | "finance" | "launch";
 
 export interface WorksWheelItem {
   title: string;
@@ -34,8 +34,18 @@ function Artwork({ art }: { art: WorksWheelArt }) {
   if (art === "portrait") {
     return <img className="works-wheel-image works-wheel-portrait" src="/me.png" alt="" draggable={false} />;
   }
-  if (art === "interface") {
-    return <img className="works-wheel-image works-wheel-interface" src="/projects/type.webp" alt="" draggable={false} />;
+  if (art === "studio") {
+    return (
+      <div className="works-wheel-art works-wheel-art-studio">
+        <span className="works-wheel-art-label">STIGMATA / STUDIO</span>
+        <div className="works-wheel-studio-frame" aria-hidden="true">
+          <span>PORTFOLIO / CONTACT</span>
+          <b>STIGMATA</b>
+          <i>VISUAL STORIES, BUILT TO LAST.</i>
+        </div>
+        <strong>2025 <small>FIRST CLIENT / LIVE SITE</small></strong>
+      </div>
+    );
   }
   if (art === "operations") {
     return (
@@ -64,7 +74,7 @@ function Artwork({ art }: { art: WorksWheelArt }) {
   return (
     <div className="works-wheel-art works-wheel-art-launch">
       <span className="works-wheel-art-label">TATTOO RAFFLE / LIVE</span>
-      <div className="works-wheel-ticket"><span>ENTRY</span><strong>200</strong><span>PAID / RESERVED</span></div>
+      <div className="works-wheel-ticket"><span>CAMPAIGN</span><strong>200</strong><span>ENTRIES</span></div>
       <span className="works-wheel-launch-dot" aria-hidden="true" />
     </div>
   );

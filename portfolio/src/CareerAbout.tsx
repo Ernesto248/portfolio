@@ -6,76 +6,76 @@ type Language = "es" | "en";
 const chapters: Record<Language, WorksWheelItem[]> = {
   es: [
     {
-      chapter: "01 / ORIGEN",
-      title: "Una base para construir.",
-      description: "Soy ingeniero informático. La formación me dio la base para entender cómo encajan la interfaz, la lógica y los datos.",
-      proof: "FORMACIÓN · INGENIERÍA INFORMÁTICA",
+      chapter: "01 / 2021—2025",
+      title: "La base.",
+      description: "Estudié Ingeniería Informática en la Universidad de Camagüey. Ahí empecé a unir interfaz, lógica y datos para construir productos completos.",
+      proof: "INGENIERÍA INFORMÁTICA · UNIVERSIDAD DE CAMAGÜEY",
       art: "portrait",
     },
     {
-      chapter: "02 / PROYECTOS PROPIOS",
-      title: "Aprender haciendo.",
-      description: "Proyectos como Dev Type me dieron espacio para experimentar con interacción, estado y experiencia de usuario.",
-      proof: "DEV TYPE · PROYECTO PROPIO",
-      art: "interface",
+      chapter: "02 / 2025",
+      title: "El primer cliente.",
+      description: "Con Stigmata Tattoo llevé una web real a producción: portfolio, ubicación, contacto y gestión de contenido visual. Sigue en uso desde junio de 2025.",
+      proof: "STIGMATA TATTOO · EN PRODUCCIÓN",
+      art: "studio",
     },
     {
-      chapter: "03 / CLIENTES",
+      chapter: "03 / 2025",
+      title: "Cobrar sin fricción.",
+      description: "Tattoo Raffle reunió pagos con Stripe, reservas atómicas y correos transaccionales para una campaña real de 200 participaciones.",
+      proof: "200 PARTICIPACIONES · CAMPAÑA REAL",
+      art: "launch",
+    },
+    {
+      chapter: "04 / 2025—2026",
       title: "Software para operar.",
-      description: "Desarrollé S.G.I.A., un sistema de gestión que conectó inventario, ventas y caja en seis sucursales.",
-      proof: "6 SUCURSALES · USO DIARIO",
+      description: "S.G.I.A. sustituyó hojas de cálculo y conectó inventario, ventas y caja de seis sucursales. Lo usaron a diario entre cinco y seis personas.",
+      proof: "6 SUCURSALES · 3.185 VENTAS",
       art: "operations",
     },
     {
-      chapter: "04 / DATOS",
+      chapter: "05 / 2026",
       title: "Cada dato cuenta.",
-      description: "En Transactions diseñé ingesta idempotente, un libro auditable y automatizaciones para conciliar operaciones reales.",
+      description: "Con Transactions desarrollé tres sistemas financieros para clientes: transacciones, saldos y conciliación con PostgreSQL, Neon y automatizaciones de n8n.",
       proof: "2.806 TRANSACCIONES · 25 DÍAS",
       art: "finance",
-    },
-    {
-      chapter: "05 / ENTREGA",
-      title: "Lanzar y mantener.",
-      description: "Tattoo Raffle reunió pagos, reservas seguras y administración en una campaña real de 200 participaciones.",
-      proof: "200 PARTICIPACIONES · CAMPAÑA REAL",
-      art: "launch",
     },
   ],
   en: [
     {
-      chapter: "01 / FOUNDATION",
-      title: "A foundation to build on.",
-      description: "I'm a computer engineering graduate. That foundation helped me connect interfaces, application logic and data.",
-      proof: "EDUCATION · COMPUTER ENGINEERING",
+      chapter: "01 / 2021—2025",
+      title: "The foundation.",
+      description: "I studied Computer Engineering at the University of Camagüey, where I began connecting interfaces, application logic and data to build complete products.",
+      proof: "COMPUTER ENGINEERING · UNIVERSITY OF CAMAGÜEY",
       art: "portrait",
     },
     {
-      chapter: "02 / PERSONAL PROJECTS",
-      title: "Learning by building.",
-      description: "Projects like Dev Type gave me room to explore interaction, state and user experience.",
-      proof: "DEV TYPE · PERSONAL PROJECT",
-      art: "interface",
+      chapter: "02 / 2025",
+      title: "My first client.",
+      description: "I shipped Stigmata Tattoo to production: a portfolio, location, contact form and visual content management. It has been in use since June 2025.",
+      proof: "STIGMATA TATTOO · IN PRODUCTION",
+      art: "studio",
     },
     {
-      chapter: "03 / CLIENT WORK",
+      chapter: "03 / 2025",
+      title: "Payments that work.",
+      description: "Tattoo Raffle combined Stripe payments, atomic reservations and transactional email for a real 200-entry campaign.",
+      proof: "200 ENTRIES · LIVE CAMPAIGN",
+      art: "launch",
+    },
+    {
+      chapter: "04 / 2025—2026",
       title: "Software for daily work.",
-      description: "I built S.G.I.A., a management system connecting inventory, sales and cash across six branches.",
-      proof: "6 BRANCHES · DAILY USE",
+      description: "S.G.I.A. replaced spreadsheets and connected inventory, sales and cash across six branches. Five to six people used it in their daily work.",
+      proof: "6 BRANCHES · 3,185 SALES",
       art: "operations",
     },
     {
-      chapter: "04 / DATA",
+      chapter: "05 / 2026",
       title: "Every record matters.",
-      description: "For Transactions I designed idempotent ingestion, an auditable ledger and automation for real reconciliation workflows.",
+      description: "With Transactions, I built three financial systems for clients: transactions, balances and reconciliation powered by PostgreSQL, Neon and n8n automation.",
       proof: "2,806 TRANSACTIONS · 25 DAYS",
       art: "finance",
-    },
-    {
-      chapter: "05 / DELIVERY",
-      title: "Ship and maintain.",
-      description: "Tattoo Raffle combined payments, safe reservations and administration for a real 200-entry campaign.",
-      proof: "200 ENTRIES · LIVE CAMPAIGN",
-      art: "launch",
     },
   ],
 };
@@ -91,8 +91,8 @@ export function CareerAbout({ language }: { language: Language }) {
             <span data-copy="en">The story behind the work.</span>
           </h2>
           <p>
-            <span data-copy="es">Un recorrido breve, hecho de proyectos que salieron de la pantalla para resolver problemas reales.</span>
-            <span data-copy="en">A short journey through projects that moved beyond the screen to solve real problems.</span>
+            <span data-copy="es">De la universidad a productos usados cada día por clientes. Cinco momentos que explican cómo trabajo.</span>
+            <span data-copy="en">From university to products clients use every day. Five moments that show how I work.</span>
           </p>
         </div>
       </div>

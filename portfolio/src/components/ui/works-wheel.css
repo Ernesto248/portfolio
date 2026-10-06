@@ -174,11 +174,6 @@
   filter: saturate(0.76) contrast(1.1);
 }
 
-.works-wheel-interface {
-  object-position: center top;
-  filter: saturate(0.85);
-}
-
 .works-wheel-card-caption {
   position: absolute;
   left: 16px;
@@ -276,6 +271,12 @@
 .works-wheel-art-label { position: relative; z-index: 1; color: #a8dbd7; font-size: 7px; }
 .works-wheel-art strong { position: absolute; left: 18px; bottom: 48px; font-size: clamp(36px, 4vw, 60px); line-height: 1; letter-spacing: -0.075em; }
 .works-wheel-art strong small { display: block; margin-top: 5px; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.1em; }
+.works-wheel-art-studio { background: radial-gradient(circle at 72% 30%, #946f68, transparent 48%), linear-gradient(145deg, #302b31, #111a21); }
+.works-wheel-studio-frame { position: absolute; top: 18%; left: 17%; right: 13%; height: 54%; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 17px; border: 1px solid #e9cbb080; background: linear-gradient(130deg, #291e23, #553b3a 54%, #29282d); box-shadow: 0 17px 35px #080e16a8; transform: rotate(-5deg); }
+.works-wheel-studio-frame span, .works-wheel-studio-frame i { color: #e8cdbf; font: 7px "IBM Plex Mono", monospace; letter-spacing: 0.14em; }
+.works-wheel-studio-frame b { color: #fff0e4; font-size: clamp(17px, 2.6vw, 38px); letter-spacing: -0.06em; }
+.works-wheel-studio-frame i { font-style: normal; }
+.works-wheel-art-studio strong { z-index: 1; bottom: 46px; font-size: clamp(30px, 3.5vw, 50px); text-shadow: 0 4px 20px #0b121b; }
 .works-wheel-art-operations { background: radial-gradient(circle at 70% 25%, #318984, transparent 49%), linear-gradient(145deg, #0c3a42, #071b2a); }
 .works-wheel-art-operations strong { top: 38%; bottom: auto; left: 10%; }
 .works-wheel-ops-grid { position: absolute; top: 29%; right: 9%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 54%; }
