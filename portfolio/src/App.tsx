@@ -646,10 +646,6 @@ function Contact({ language }: { language: Language }) {
       id="contact"
       aria-labelledby="contact-title"
     >
-      <div className="contact-curtain" aria-hidden="true">
-        <span data-copy="es">CONSTRUYAMOS ALGO</span>
-        <span data-copy="en">LET'S BUILD SOMETHING</span>
-      </div>
       <div className="contact-glow" aria-hidden="true"></div>
       <p className="section-kicker">04 / CONTACT</p>
       <div className="contact-grid grid">
@@ -705,6 +701,22 @@ function Contact({ language }: { language: Language }) {
                 : "\u00a0"}
           </p>
         </form>
+      </div>
+    </section>
+  );
+}
+
+function ContactPrelude() {
+  return (
+    <section className="contact-prelude" aria-hidden="true">
+      <div className="contact-prelude-stage">
+        <span className="contact-prelude-index">04 / LET'S BUILD</span>
+        <div className="contact-prelude-title">
+          <span data-copy="es">CONSTRUYAMOS ALGO</span>
+          <span data-copy="en">LET'S BUILD SOMETHING</span>
+        </div>
+        <span className="contact-prelude-rule" />
+        <span className="contact-prelude-foot">LEONARD SOLUTIONS / DESIGN · ENGINEER · SHIP</span>
       </div>
     </section>
   );
@@ -785,6 +797,7 @@ function App() {
         <Hero />
         <CareerAbout language={language} />
         <Work />
+        <ContactPrelude />
         <Contact language={language} />
       </main>
       <Footer />

@@ -273,16 +273,33 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               });
             });
 
-          gsap.fromTo(".contact-curtain", { yPercent: 0 }, {
-            yPercent: -100,
-            ease: "none",
+          gsap.timeline({
             scrollTrigger: {
-              trigger: ".contact-section",
-              start: "top 88%",
-              end: desktop ? "top 19%" : "top 40%",
+              trigger: ".contact-prelude",
+              start: "top top",
+              end: "bottom bottom",
               scrub: desktop ? 0.8 : 0.5,
             },
-          });
+            defaults: { ease: "none" },
+          })
+            .fromTo(
+              ".contact-prelude-title",
+              { yPercent: 18, scale: 0.88, autoAlpha: 0.72 },
+              { yPercent: 0, scale: 1, autoAlpha: 1, duration: 0.22 },
+            )
+            .fromTo(
+              ".contact-prelude-rule",
+              { scaleX: 0 },
+              { scaleX: 1, duration: 0.22 },
+              0,
+            )
+            .to({}, { duration: 0.56 })
+            .to(".contact-prelude-title", {
+              yPercent: -8,
+              scale: 1.05,
+              autoAlpha: 0.8,
+              duration: 0.22,
+            });
 
           gsap
             .timeline({

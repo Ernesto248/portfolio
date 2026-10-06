@@ -1048,34 +1048,62 @@ body {
   transform-origin: left center;
 }
 
-.contact-curtain {
-  display: none;
-  position: absolute;
-  z-index: 5;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
+.contact-prelude {
+  position: relative;
+  height: 235svh;
+}
+.contact-prelude-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
   background: #d4ff54;
   color: #172b42;
-  pointer-events: none;
-  transform-origin: top center;
 }
-.contact-curtain span {
-  max-width: 950px;
+.contact-prelude-stage::before {
+  content: "";
+  position: absolute;
+  width: min(78vw, 900px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(23, 43, 66, 0.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 8vw rgba(23, 43, 66, 0.025), 0 0 0 16vw rgba(23, 43, 66, 0.018);
+}
+.contact-prelude-index,
+.contact-prelude-foot {
+  position: absolute;
+  left: max(32px, calc((100vw - 1240px) / 2));
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.contact-prelude-index { top: 14svh; }
+.contact-prelude-foot { bottom: 11svh; }
+.contact-prelude-title {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 64px, 1200px);
   text-align: center;
-  font-size: clamp(64px, 10vw, 144px);
-  line-height: 0.87;
+  font-size: clamp(72px, 12vw, 176px);
+  line-height: 0.86;
   font-weight: 900;
   letter-spacing: -0.09em;
+  text-wrap: balance;
+  will-change: transform, opacity;
+}
+.contact-prelude-rule {
+  position: absolute;
+  bottom: 18svh;
+  width: min(60vw, 680px);
+  height: 2px;
+  background: #172b42;
+  transform-origin: left center;
 }
 .contact-section {
   perspective: 1200px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .contact-curtain {
-    display: flex;
-  }
 }
 
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
@@ -1160,9 +1188,11 @@ body {
   .project-visual {
     transform-style: preserve-3d;
   }
-  .contact-curtain span {
-    padding: 0 22px;
-    font-size: clamp(56px, 10vw, 86px);
+  .contact-prelude {
+    height: 220svh;
+  }
+  .contact-prelude-title {
+    font-size: clamp(66px, 12vw, 110px);
   }
 }
 
@@ -1173,8 +1203,19 @@ body {
   .work-rail-label {
     font-size: 9px;
   }
-  .contact-curtain span {
-    font-size: clamp(52px, 15vw, 72px);
+  .contact-prelude-title {
+    font-size: clamp(62px, 16vw, 82px);
+  }
+  .contact-prelude-index,
+  .contact-prelude-foot {
+    left: 18px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-prelude {
+    display: none;
   }
 }
 
