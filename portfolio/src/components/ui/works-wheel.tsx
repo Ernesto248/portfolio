@@ -43,7 +43,6 @@ function Artwork({ art }: { art: WorksWheelArt }) {
           <b>STIGMATA</b>
           <i>VISUAL STORIES, BUILT TO LAST.</i>
         </div>
-        <strong>2025 <small>FIRST CLIENT / LIVE SITE</small></strong>
       </div>
     );
   }

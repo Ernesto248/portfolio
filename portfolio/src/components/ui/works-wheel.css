@@ -276,7 +276,6 @@
 .works-wheel-studio-frame span, .works-wheel-studio-frame i { color: #e8cdbf; font: 7px "IBM Plex Mono", monospace; letter-spacing: 0.14em; }
 .works-wheel-studio-frame b { color: #fff0e4; font-size: clamp(17px, 2.6vw, 38px); letter-spacing: -0.06em; }
 .works-wheel-studio-frame i { font-style: normal; }
-.works-wheel-art-studio strong { z-index: 1; bottom: 46px; font-size: clamp(30px, 3.5vw, 50px); text-shadow: 0 4px 20px #0b121b; }
 .works-wheel-art-operations { background: radial-gradient(circle at 70% 25%, #318984, transparent 49%), linear-gradient(145deg, #0c3a42, #071b2a); }
 .works-wheel-art-operations strong { top: 38%; bottom: auto; left: 10%; }
 .works-wheel-ops-grid { position: absolute; top: 29%; right: 9%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 54%; }
