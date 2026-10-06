@@ -843,7 +843,7 @@ function Contact({ language }: { language: Language }) {
             {status === "sent"
               ? (language === "es" ? "Mensaje enviado. Te responderé pronto." : "Message sent. I'll get back to you soon.")
               : status === "error"
-                ? (language === "es" ? "No se pudo enviar. Escríbeme al correo de la izquierda." : "Couldn't send. Please use the email on the left.")
+                ? (language === "es" ? "No se pudo enviar. Escríbeme directamente por email." : "Couldn't send. Please email me directly instead.")
                 : "\u00a0"}
           </p>
         </form>
