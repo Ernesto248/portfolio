@@ -362,6 +362,14 @@ function Work() {
           </div>
           <a
             className="project-link"
+            href="/demos/transactions"
+          >
+            <span data-copy="es">Explorar demo interactiva</span>
+            <span data-copy="en">Explore interactive demo</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            className="project-link project-link-secondary"
             href="https://github.com/Ernesto248/undertaker-transactions"
             target="_blank"
             rel="noopener noreferrer"
@@ -471,12 +479,17 @@ function Work() {
               PostgreSQL
             </Badge>
           </div>
+          <a className="project-link" href="/demos/sgia">
+            <span data-copy="es">Explorar demo interactiva</span>
+            <span data-copy="en">Explore interactive demo</span>
+            <span aria-hidden="true">↗</span>
+          </a>
           <p className="private-note">
             <span data-copy="es">
-              Código del cliente privado · Demo independiente en preparación
+              Demo independiente con datos ficticios · Código del cliente privado
             </span>
             <span data-copy="en">
-              Private client code · Standalone demo in preparation
+              Standalone demo with fictional data · Private client code
             </span>
           </p>
         </div>
@@ -574,12 +587,17 @@ function Work() {
               Supabase
             </Badge>
           </div>
+          <a className="project-link" href="/demos/tattoo-raffle">
+            <span data-copy="es">Explorar demo interactiva</span>
+            <span data-copy="en">Explore interactive demo</span>
+            <span aria-hidden="true">↗</span>
+          </a>
           <p className="private-note">
             <span data-copy="es">
-              Código del cliente privado · Demo independiente en preparación
+              Demo independiente sin pagos reales · Código del cliente privado
             </span>
             <span data-copy="en">
-              Private client code · Standalone demo in preparation
+              Standalone demo without real payments · Private client code
             </span>
           </p>
         </div>
