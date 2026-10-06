@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowRight, Boxes, Check, PackageCheck, ShoppingBag } from "lucide-react";
 import { DemoFooter, DemoHeader, DemoIntro, Metric, Panel } from "./DemoApp";
@@ -40,6 +40,12 @@ export function SgiaDemo() {
   const totalUnits = Object.values(stock).reduce((sum, location) => sum + Object.values(location).reduce((count, quantity) => count + quantity, 0), 0);
   const transitUnits = transfers.filter((transfer) => transfer.status === "en tránsito").reduce((sum, transfer) => sum + transfer.quantity, 0);
   const revenue = sales.reduce((sum, sale) => sum + sale.total, 0);
+
+  useEffect(() => {
+    if (!message) return;
+    const timer = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timer);
+  }, [message]);
 
   function reset() {
     setStock(initialStock()); setBranch("Centro"); setTransfers([]); setSales([]); setTransferProduct("P-01"); setTarget("Norte"); setTransferQuantity("2"); setSaleProduct("P-02"); setSaleQuantity("1"); setMessage("Datos de demostración restaurados.");
@@ -87,7 +93,7 @@ export function SgiaDemo() {
         <Metric label="SUCURSALES CONECTADAS" value="06" detail="Una vista de operación" />
         <Metric label="UNIDADES DISPONIBLES" value={String(totalUnits)} detail="En todas las ubicaciones" />
         <Metric label="EN TRÁNSITO" value={String(transitUnits).padStart(2, "0")} detail="Esperando recepción" />
-        <Metric label="VENTAS SIMULADAS" value={currency(revenue)} detail={`${sales.length} operaciones registradas`} className="demo-metric-emphasis" />
+        <Metric label="VENTAS SIMULADAS" value={currency(revenue)} detail={`${sales.length} ${sales.length === 1 ? "operación registrada" : "operaciones registradas"}`} className="demo-metric-emphasis" />
       </div>
       <div className="demo-branch-strip"><div><span>UBICACIÓN ACTIVA</span><strong>{branch}</strong></div><div className="demo-branch-buttons">{branches.map((item, index) => <button type="button" className={branch === item ? "active" : ""} key={item} onClick={() => { setBranch(item); if (target === item) setTarget(branch); }}><small>0{index + 1}</small>{item}</button>)}</div></div>
       <div className="demo-dashboard demo-sgia-layout">

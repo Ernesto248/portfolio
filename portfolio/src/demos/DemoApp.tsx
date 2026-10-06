@@ -40,7 +40,7 @@ export function DemoIntro({ index, eyebrow, title, description, accent }: { inde
     <div className="demo-intro" style={{ "--demo-accent": accent } as React.CSSProperties}>
       <div className="demo-intro-left">
         <p className="demo-overline"><span className="demo-live-dot" /> DEMO INTERACTIVA <span className="demo-overline-separator">/</span> {index} — {eyebrow}</p>
-        <h1>{title}<span className="demo-title-dot">.</span></h1>
+        <h1>{title.endsWith(".") ? title.slice(0, -1) : title}<span className="demo-title-dot">.</span></h1>
         <p>{description}</p>
       </div>
       <div className="demo-intro-right">

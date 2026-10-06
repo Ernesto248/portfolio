@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowDownRight, ArrowRight, Check, CircleAlert, DatabaseZap, Plus } from "lucide-react";
 import { DemoFooter, DemoHeader, DemoIntro, Metric, Panel } from "./DemoApp";
@@ -40,6 +40,12 @@ export function FinanceDemo() {
   const assigned = transactions.filter((tx) => tx.status === "asignada");
   const total = transactions.reduce((sum, tx) => sum + tx.amount, 0);
   const debt = assigned.reduce((sum, tx) => sum + tx.amount, 0);
+
+  useEffect(() => {
+    if (!message) return;
+    const timer = window.setTimeout(() => setMessage(""), 5000);
+    return () => window.clearTimeout(timer);
+  }, [message]);
 
   function reset() {
     setTransactions(seedTransactions()); setAudit(seedAudit()); setSelected("TX-1042"); setFilter("todas");
