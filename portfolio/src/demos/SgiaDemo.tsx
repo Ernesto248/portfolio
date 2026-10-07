@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowRight, Boxes, Check, PackageCheck, ShoppingBag } from "lucide-react";
-import { DemoFooter, DemoHeader, DemoIntro, Metric, Panel } from "./DemoApp";
+import { DemoFooter, DemoHeader, Metric, Panel, SandboxHeading } from "./DemoApp";
+import { t } from "./demo-i18n";
+import type { Language } from "./demo-i18n";
+import { DemoStory } from "./DemoStory";
+import { useDemoSession } from "./demo-session";
 
 type Product = { id: string; name: string; sku: string; price: number };
 type Transfer = { id: string; product: string; from: string; to: string; quantity: number; status: "en tránsito" | "recibida" };
@@ -25,11 +29,11 @@ const initialStock = (): Stock => ({
 });
 const currency = (value: number) => new Intl.NumberFormat("es-ES", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 
-export function SgiaDemo() {
-  const [stock, setStock] = useState(initialStock);
-  const [branch, setBranch] = useState("Centro");
-  const [transfers, setTransfers] = useState<Transfer[]>([]);
-  const [sales, setSales] = useState<Sale[]>([]);
+export function SgiaDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+  const [stock, setStock] = useDemoSession("sgia-stock", initialStock);
+  const [branch, setBranch] = useDemoSession("sgia-branch", () => "Centro");
+  const [transfers, setTransfers] = useDemoSession<Transfer[]>("sgia-transfers", () => []);
+  const [sales, setSales] = useDemoSession<Sale[]>("sgia-sales", () => []);
   const [transferProduct, setTransferProduct] = useState("P-01");
   const [target, setTarget] = useState("Norte");
   const [transferQuantity, setTransferQuantity] = useState("2");
@@ -40,6 +44,8 @@ export function SgiaDemo() {
   const totalUnits = Object.values(stock).reduce((sum, location) => sum + Object.values(location).reduce((count, quantity) => count + quantity, 0), 0);
   const transitUnits = transfers.filter((transfer) => transfer.status === "en tránsito").reduce((sum, transfer) => sum + transfer.quantity, 0);
   const revenue = sales.reduce((sum, sale) => sum + sale.total, 0);
+  const initialUnits = Object.values(initialStock()).reduce((sum, location) => sum + Object.values(location).reduce((count, quantity) => count + quantity, 0), 0);
+  const soldUnits = sales.reduce((sum, sale) => sum + sale.quantity, 0);
 
   useEffect(() => {
     if (!message) return;
@@ -48,74 +54,77 @@ export function SgiaDemo() {
   }, [message]);
 
   function reset() {
-    setStock(initialStock()); setBranch("Centro"); setTransfers([]); setSales([]); setTransferProduct("P-01"); setTarget("Norte"); setTransferQuantity("2"); setSaleProduct("P-02"); setSaleQuantity("1"); setMessage("Datos de demostración restaurados.");
+    setStock(initialStock()); setBranch("Centro"); setTransfers([]); setSales([]); setTransferProduct("P-01"); setTarget("Norte"); setTransferQuantity("2"); setSaleProduct("P-02"); setSaleQuantity("1"); setMessage(t(language, "Datos de demostración restaurados.", "Demo data restored."));
   }
 
   function transfer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const quantity = Number(transferQuantity);
     if (!Number.isInteger(quantity) || quantity < 1 || target === branch || quantity > localStock[transferProduct]) {
-      setMessage("La transferencia necesita una sucursal distinta y stock disponible suficiente."); return;
+      setMessage(t(language, "La transferencia necesita una sucursal distinta y stock disponible suficiente.", "The transfer needs a different branch and enough available stock.")); return;
     }
     const id = `TR-${String(transfers.length + 1).padStart(3, "0")}`;
     setStock((current) => ({ ...current, [branch]: { ...current[branch], [transferProduct]: current[branch][transferProduct] - quantity } }));
     setTransfers((current) => [{ id, product: transferProduct, from: branch, to: target, quantity, status: "en tránsito" }, ...current]);
-    setMessage(`${id} enviada: ${quantity} unidades salen de ${branch}. El destino debe confirmar la recepción.`);
+    setMessage(t(language, `${id} enviada: ${quantity} unidades salen de ${branch}. El destino debe confirmar la recepción.`, `${id} dispatched: ${quantity} units leave ${branch}. The recipient must confirm delivery.`));
   }
 
   function receive(id: string) {
     const item = transfers.find((entry) => entry.id === id);
-    if (!item || item.status === "recibida") return;
+    if (!item || item.status === "recibida" || item.to !== branch) return;
     setStock((current) => ({ ...current, [item.to]: { ...current[item.to], [item.product]: current[item.to][item.product] + item.quantity } }));
     setTransfers((current) => current.map((entry) => entry.id === id ? { ...entry, status: "recibida" } : entry));
-    setMessage(`${id} recibida en ${item.to}. El inventario del destino se actualizó una sola vez.`);
+    setMessage(t(language, `${id} recibida en ${item.to}. El inventario del destino se actualizó una sola vez.`, `${id} received at ${item.to}. Destination inventory was updated once.`));
   }
 
   function sell(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const quantity = Number(saleQuantity);
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > localStock[saleProduct]) {
-      setMessage("La venta requiere una cantidad entera disponible en esta sucursal."); return;
+      setMessage(t(language, "La venta requiere una cantidad entera disponible en esta sucursal.", "A sale requires a whole number of units available at this branch.")); return;
     }
     const product = products.find((item) => item.id === saleProduct)!;
     const id = `V-${String(sales.length + 1).padStart(3, "0")}`;
     setStock((current) => ({ ...current, [branch]: { ...current[branch], [saleProduct]: current[branch][saleProduct] - quantity } }));
     setSales((current) => [{ id, branch, product: saleProduct, quantity, total: quantity * product.price }, ...current]);
-    setMessage(`${id} registrada en ${branch}: ${quantity} × ${product.name}. Stock y caja actualizados.`);
+    setMessage(t(language, `${id} registrada en ${branch}: ${quantity} × ${product.name}. Stock y caja actualizados.`, `${id} recorded at ${branch}: ${quantity} × ${product.name}. Stock and sales updated.`));
   }
 
   return <div className="demo-page demo-sgia">
-    <DemoHeader active="sgia" onReset={reset} />
+    <DemoHeader active="sgia" onReset={reset} language={language} onLanguageChange={onLanguageChange} />
     <main className="demo-main">
-      <DemoIntro index="02" eyebrow="BUSINESS OPERATIONS" title="S.G.I.A." description="Seis sucursales, un inventario compartido. Mueve stock entre ubicaciones, confirma su llegada y registra una venta desde la misma vista." accent="#7ce9cf" />
-      <div className="demo-flow"><span><Boxes size={17} /> CATÁLOGO</span><i /><span>6 SUCURSALES</span><i /><span>TRANSFERENCIAS</span><i /><span>PUNTO DE VENTA</span></div>
+      <DemoStory slug="sgia" language={language} />
+      <SandboxHeading language={language} title={t(language, "Sigue cada unidad.", "Track every unit.")} description={t(language, "Envía desde Centro, cambia a Norte, recibe y registra una venta. El balance permanece visible.", "Dispatch from Centro, switch to Norte, receive and record a sale. The balance stays visible.")} />
+      <div className="demo-flow"><span><Boxes size={17} /> {t(language, "CATÁLOGO", "CATALOG")}</span><i /><span>{t(language, "6 SUCURSALES", "6 BRANCHES")}</span><i /><span>{t(language, "TRANSFERENCIAS", "TRANSFERS")}</span><i /><span>{t(language, "PUNTO DE VENTA", "POINT OF SALE")}</span></div>
+      <div className="demo-scenario-bar"><span>{t(language, "PRUEBA EL RECORRIDO", "TRY THE FLOW")}</span><p>{t(language, "Envía 2 kits de Centro a Norte, abre Norte, confirma y vende 1 unidad.", "Send 2 kits from Centro to Norte, open Norte, confirm receipt and sell 1 unit.")}</p><button type="button" onClick={() => { setBranch("Centro"); setTarget("Norte"); setTransferProduct("P-01"); setTransferQuantity("2"); setSaleProduct("P-01"); setSaleQuantity("1"); }}>{t(language, "Preparar escenario", "Prepare scenario")}</button></div>
+      <div className="demo-branch-map" aria-label={t(language, "Mapa de seis sucursales", "Map of six branches")}><div className="demo-map-head"><span>{t(language, "RED DE SUCURSALES", "BRANCH NETWORK")}</span><strong>{t(language, "Pulsa una ubicación para operar allí", "Select a location to operate there")}</strong></div><div className="demo-map-stage"><div className="demo-map-orbit" /><div className="demo-map-core">S.G.I.A.<small>06 / LIVE</small></div>{branches.map((item, index) => <button key={item} type="button" className={`demo-map-node demo-map-node-${index} ${branch === item ? "active" : ""}`} aria-pressed={branch === item} onClick={() => { setBranch(item); if (target === item) setTarget(branch); }}><small>0{index + 1}</small>{item}<b>{Object.values(stock[item]).reduce((sum, value) => sum + value, 0)} {t(language, "uds", "units")}</b></button>)}</div><div className="demo-map-footer"><span>{t(language, "DISPONIBLE", "AVAILABLE")} {totalUnits}</span><span>{t(language, "EN TRÁNSITO", "IN TRANSIT")} {transitUnits}</span><span>{t(language, "VENDIDO", "SOLD")} {soldUnits}</span><strong>{initialUnits === totalUnits + transitUnits + soldUnits ? "✓ BALANCED" : "! CHECK"}</strong></div></div>
       <div className="demo-metrics demo-metrics-four">
-        <Metric label="SUCURSALES CONECTADAS" value="06" detail="Una vista de operación" />
-        <Metric label="UNIDADES DISPONIBLES" value={String(totalUnits)} detail="En todas las ubicaciones" />
-        <Metric label="EN TRÁNSITO" value={String(transitUnits).padStart(2, "0")} detail="Esperando recepción" />
-        <Metric label="VENTAS SIMULADAS" value={currency(revenue)} detail={`${sales.length} ${sales.length === 1 ? "operación registrada" : "operaciones registradas"}`} className="demo-metric-emphasis" />
+        <Metric label={t(language, "SUCURSALES", "BRANCHES")} value="06" />
+        <Metric label={t(language, "UNIDADES DISPONIBLES", "AVAILABLE UNITS")} value={String(totalUnits)} />
+        <Metric label={t(language, "EN TRÁNSITO", "IN TRANSIT")} value={String(transitUnits).padStart(2, "0")} />
+        <Metric label={t(language, "VENTAS SIMULADAS", "SIMULATED SALES")} value={currency(revenue)} detail={`${sales.length} ${t(language, "operaciones", "sales")}`} className="demo-metric-emphasis" />
       </div>
-      <div className="demo-branch-strip"><div><span>UBICACIÓN ACTIVA</span><strong>{branch}</strong></div><div className="demo-branch-buttons">{branches.map((item, index) => <button type="button" className={branch === item ? "active" : ""} key={item} onClick={() => { setBranch(item); if (target === item) setTarget(branch); }}><small>0{index + 1}</small>{item}</button>)}</div></div>
+      <div className="demo-branch-strip"><div><span>{t(language, "UBICACIÓN ACTIVA", "ACTIVE LOCATION")}</span><strong>{branch}</strong></div><div className="demo-branch-buttons">{branches.map((item, index) => <button type="button" className={branch === item ? "active" : ""} key={item} onClick={() => { setBranch(item); if (target === item) setTarget(branch); }}><small>0{index + 1}</small>{item}</button>)}</div></div>
       <div className="demo-dashboard demo-sgia-layout">
-        <Panel kicker="01 / INVENTARIO" title={`Stock · ${branch}`} className="demo-inventory-panel">
-          <div className="demo-table-wrap"><table className="demo-table"><thead><tr><th>PRODUCTO</th><th>SKU</th><th>PRECIO</th><th>DISPONIBLE</th></tr></thead><tbody>{products.map((product) => <tr key={product.id}><td><span className="demo-product-dot" />{product.name}</td><td className="demo-muted">{product.sku}</td><td>{currency(product.price)}</td><td><span className={`demo-stock ${localStock[product.id] <= 3 ? "low" : ""}`}>{String(localStock[product.id]).padStart(2, "0")} uds</span></td></tr>)}</tbody></table></div>
-          <div className="demo-panel-bottom"><PackageCheck size={15} /> Stock actualizado al vender, enviar y recibir</div>
+        <Panel kicker={t(language, "01 / INVENTARIO", "01 / INVENTORY")} title={`Stock · ${branch}`} className="demo-inventory-panel">
+          <div className="demo-table-wrap"><table className="demo-table"><thead><tr><th>{t(language, "PRODUCTO", "PRODUCT")}</th><th>SKU</th><th>{t(language, "PRECIO", "PRICE")}</th><th>{t(language, "DISPONIBLE", "AVAILABLE")}</th></tr></thead><tbody>{products.map((product) => <tr key={product.id}><td><span className="demo-product-dot" />{product.name}</td><td className="demo-muted">{product.sku}</td><td>{currency(product.price)}</td><td><span className={`demo-stock ${localStock[product.id] <= 3 ? "low" : ""}`}>{String(localStock[product.id]).padStart(2, "0")} {t(language, "uds", "units")}</span></td></tr>)}</tbody></table></div>
+          <div className="demo-panel-bottom"><PackageCheck size={15} /> {t(language, "Stock actualizado al vender, enviar y recibir", "Stock updates on sale, dispatch and receipt")}</div>
         </Panel>
         <div className="demo-side-stack">
-          <Panel kicker="02 / LOGÍSTICA" title="Enviar mercancía">
-            <form className="demo-form" onSubmit={transfer}><label>Producto<select value={transferProduct} onChange={(event) => setTransferProduct(event.target.value)}>{products.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><div className="demo-field-row"><label>Destino<select value={target} onChange={(event) => setTarget(event.target.value)}>{branches.filter((item) => item !== branch).map((item) => <option key={item}>{item}</option>)}</select></label><label>Unidades<input type="number" min="1" step="1" value={transferQuantity} onChange={(event) => setTransferQuantity(event.target.value)} /></label></div><button className="demo-action" type="submit"><ArrowRight size={16} /> Crear transferencia</button></form>
+          <Panel kicker={t(language, "02 / LOGÍSTICA", "02 / LOGISTICS")} title={t(language, "Enviar mercancía", "Dispatch goods")}>
+            <form className="demo-form" onSubmit={transfer}><label>{t(language, "Producto", "Product")}<select value={transferProduct} onChange={(event) => setTransferProduct(event.target.value)}>{products.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><div className="demo-field-row"><label>{t(language, "Destino", "Destination")}<select value={target} onChange={(event) => setTarget(event.target.value)}>{branches.filter((item) => item !== branch).map((item) => <option key={item}>{item}</option>)}</select></label><label>{t(language, "Unidades", "Units")}<input type="number" min="1" step="1" value={transferQuantity} onChange={(event) => setTransferQuantity(event.target.value)} /></label></div><button className="demo-action" type="submit"><ArrowRight size={16} /> {t(language, "Crear transferencia", "Create transfer")}</button></form>
           </Panel>
-          <Panel kicker="03 / CAJA" title="Registrar venta">
-            <form className="demo-form" onSubmit={sell}><div className="demo-field-row"><label>Producto<select value={saleProduct} onChange={(event) => setSaleProduct(event.target.value)}>{products.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>Unidades<input type="number" min="1" step="1" value={saleQuantity} onChange={(event) => setSaleQuantity(event.target.value)} /></label></div><button className="demo-action secondary" type="submit"><ShoppingBag size={16} /> Registrar venta</button></form>
+          <Panel kicker={t(language, "03 / CAJA", "03 / SALES")} title={t(language, "Registrar venta", "Record sale")}>
+            <form className="demo-form" onSubmit={sell}><div className="demo-field-row"><label>{t(language, "Producto", "Product")}<select value={saleProduct} onChange={(event) => setSaleProduct(event.target.value)}>{products.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>{t(language, "Unidades", "Units")}<input type="number" min="1" step="1" value={saleQuantity} onChange={(event) => setSaleQuantity(event.target.value)} /></label></div><button className="demo-action secondary" type="submit"><ShoppingBag size={16} /> {t(language, "Registrar venta", "Record sale")}</button></form>
           </Panel>
         </div>
       </div>
       <div className="demo-bottom-grid">
-        <Panel kicker="04 / TRAZABILIDAD" title="Movimientos entre sucursales"><div className="demo-transfer-list">{transfers.length === 0 && <p className="demo-empty">Crea una transferencia para ver el ciclo envío → recepción.</p>}{transfers.map((item) => <div className="demo-transfer" key={item.id}><div><strong>{item.id}</strong><span>{products.find((product) => product.id === item.product)?.name} · {item.quantity} uds</span><small>{item.from} <ArrowRight size={12} /> {item.to}</small></div><div><span className={`demo-status ${item.status === "recibida" ? "asignada" : "pendiente"}`}>{item.status}</span>{item.status === "en tránsito" && <button type="button" onClick={() => receive(item.id)}><Check size={14} /> Confirmar recepción</button>}</div></div>)}</div></Panel>
-        <div className="demo-insight"><span>DECISIÓN DE INGENIERÍA / 02</span><h2>El stock tiene ubicación y estado.</h2><p>Enviar una transferencia descuenta el origen y deja las unidades en tránsito. Solo al confirmar la recepción aparecen en la sucursal de destino.</p><div className="demo-insight-line"><ArrowRight size={18} /> ENVÍA Y RECIBE MERCANCÍA</div></div>
+        <Panel kicker={t(language, "04 / TRAZABILIDAD", "04 / TRACEABILITY")} title={t(language, "Movimientos entre sucursales", "Branch movements")}><div className="demo-transfer-list">{transfers.length === 0 && <p className="demo-empty">{t(language, "Crea una transferencia para ver el ciclo envío → recepción.", "Create a transfer to see dispatch → receipt.")}</p>}{transfers.map((item) => <div className="demo-transfer" key={item.id}><div><strong>{item.id}</strong><span>{products.find((product) => product.id === item.product)?.name} · {item.quantity} {t(language, "uds", "units")}</span><small>{item.from} <ArrowRight size={12} /> {item.to}</small></div><div><span className={`demo-status ${item.status === "recibida" ? "asignada" : "pendiente"}`}>{t(language, item.status, item.status === "recibida" ? "received" : "in transit")}</span>{item.status === "en tránsito" && (branch === item.to ? <button type="button" onClick={() => receive(item.id)}><Check size={14} /> {t(language, "Confirmar recepción", "Confirm receipt")}</button> : <button type="button" onClick={() => setBranch(item.to)}>{t(language, `Ir a ${item.to}`, `Open ${item.to}`)}</button>)}</div></div>)}{sales.map((sale) => <div className="demo-transfer" key={sale.id}><div><strong>{sale.id}</strong><span>{products.find((product) => product.id === sale.product)?.name} · {sale.quantity} {t(language, "uds", "units")}</span><small>{sale.branch} · {currency(sale.total)}</small></div><span className="demo-status asignada">{t(language, "venta", "sale")}</span></div>)}</div></Panel>
+        <div className="demo-insight"><span>{t(language, "DECISIÓN DE INGENIERÍA / 02", "ENGINEERING DECISION / 02")}</span><h2>{t(language, "El stock tiene ubicación y estado.", "Stock has location and state.")}</h2><p>{t(language, "Enviar descuenta el origen y deja las unidades en tránsito. Solo al confirmar la recepción aparecen en destino.", "Dispatch deducts stock at the origin and puts units in transit. They appear at the destination only after receipt is confirmed.")}</p><div className="demo-insight-line"><ArrowRight size={18} /> {t(language, "ENVÍA Y RECIBE MERCANCÍA", "DISPATCH AND RECEIVE GOODS")}</div></div>
       </div>
       {message && <div className="demo-toast" role="status">{message}</div>}
     </main>
-    <DemoFooter active="sgia" />
+    <DemoFooter active="sgia" language={language} />
   </div>;
 }

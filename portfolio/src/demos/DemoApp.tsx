@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowUpRight, RotateCcw } from "lucide-react";
 import { FinanceDemo } from "./FinanceDemo";
 import { SgiaDemo } from "./SgiaDemo";
 import { RaffleDemo } from "./RaffleDemo";
+import { t } from "./demo-i18n";
+import type { Language } from "./demo-i18n";
 import "./demo.css";
+import "./demo-v2.css";
 
 const demoRoutes = [
   { slug: "transactions", label: "Transactions", index: "01", eyebrow: "FINANCIAL OPERATIONS" },
@@ -12,8 +15,9 @@ const demoRoutes = [
 ] as const;
 
 export type DemoSlug = (typeof demoRoutes)[number]["slug"];
+const initialLanguage = (): Language => new URLSearchParams(window.location.search).get("lang") === "en" || (new URLSearchParams(window.location.search).get("lang") !== "es" && localStorage.getItem("portfolio-language") === "en") ? "en" : "es";
 
-export function DemoHeader({ active, onReset }: { active: DemoSlug; onReset: () => void }) {
+export function DemoHeader({ active, onReset, language, onLanguageChange }: { active: DemoSlug; onReset: () => void; language: Language; onLanguageChange: (language: Language) => void }) {
   return (
     <header className="demo-header">
       <div className="demo-header-inner">
@@ -27,8 +31,9 @@ export function DemoHeader({ active, onReset }: { active: DemoSlug; onReset: () 
             </a>
           ))}
         </nav>
+        <div className="demo-language" role="group" aria-label="Language / Idioma"><button type="button" aria-pressed={language === "es"} onClick={() => onLanguageChange("es")}>ES</button><button type="button" aria-pressed={language === "en"} onClick={() => onLanguageChange("en")}>EN</button></div>
         <button className="demo-reset" type="button" onClick={onReset}>
-          <RotateCcw size={15} aria-hidden="true" /> Reiniciar
+          <RotateCcw size={15} aria-hidden="true" /> {t(language, "Reiniciar", "Reset")}
         </button>
       </div>
     </header>
@@ -60,26 +65,33 @@ export function Panel({ kicker, title, children, className = "" }: { kicker: str
   return <section className={`demo-panel ${className}`}><div className="demo-panel-head"><span>{kicker}</span><h2>{title}</h2></div>{children}</section>;
 }
 
-export function DemoFooter({ active }: { active: DemoSlug }) {
+export function SandboxHeading({ language, title, description }: { language: Language; title: string; description: string }) {
+  return <div id="sandbox" className="demo-sandbox-heading"><div><span>{t(language, "ENTORNO INTERACTIVO / DATOS FICTICIOS", "INTERACTIVE SANDBOX / FICTIONAL DATA")}</span><h2>{title}</h2></div><p>{description}</p></div>;
+}
+
+export function DemoFooter({ active, language }: { active: DemoSlug; language: Language }) {
   const current = demoRoutes.findIndex((route) => route.slug === active);
   const next = demoRoutes[(current + 1) % demoRoutes.length];
-  return <footer className="demo-footer"><a href="/#work"><ArrowLeft size={16} /> Volver a proyectos</a><span>LEONARD SOLUTIONS / PRODUCT LAB</span><a href={`/demos/${next.slug}`}>Siguiente demo: {next.label} <ArrowUpRight size={16} /></a></footer>;
+  return <footer className="demo-footer"><a href="/#work"><ArrowLeft size={16} /> {t(language, "Volver a proyectos", "Back to projects")}</a><span>LEONARD SOLUTIONS / PRODUCT LAB</span><a href={`/demos/${next.slug}${language === "en" ? "?lang=en" : ""}`}>{t(language, "Siguiente demo", "Next demo")}: {next.label} <ArrowUpRight size={16} /></a></footer>;
 }
 
 export function DemoApp() {
   const slug = window.location.pathname.replace(/\/$/, "").split("/")[2];
+  const [language, setLanguage] = useState<Language>(initialLanguage);
   useEffect(() => {
     const route = demoRoutes.find((item) => item.slug === slug);
     document.title = route ? `${route.label} — Demo | Leonard Solutions` : "Demos | Leonard Solutions";
-    document.documentElement.lang = "es";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", route ? `Demo interactiva de ${route.label} por Leonard Solutions. Datos ficticios y flujos simulados.` : "Demos interactivas de Leonard Solutions.");
+    document.documentElement.lang = language;
+    localStorage.setItem("portfolio-language", language);
+    document.querySelector('meta[name="description"]')?.setAttribute("content", route ? t(language, `Demo interactiva de ${route.label} por Leonard Solutions. Datos ficticios y flujos simulados.`, `Interactive ${route.label} demo by Leonard Solutions. Fictional data and simulated workflows.`) : "Demos interactivas de Leonard Solutions.");
     document.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
     document.body.classList.add("demo-body");
     return () => document.body.classList.remove("demo-body");
-  }, [slug]);
+  }, [slug, language]);
 
-  if (slug === "transactions") return <FinanceDemo />;
-  if (slug === "sgia") return <SgiaDemo />;
-  if (slug === "tattoo-raffle") return <RaffleDemo />;
+  const common = { language, onLanguageChange: setLanguage };
+  if (slug === "transactions") return <FinanceDemo {...common} />;
+  if (slug === "sgia") return <SgiaDemo {...common} />;
+  if (slug === "tattoo-raffle") return <RaffleDemo {...common} />;
   return <main className="demo-unknown"><a href="/#work">← Volver al portafolio</a><h1>Esta demo no existe.</h1></main>;
 }
