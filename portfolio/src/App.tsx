@@ -227,12 +227,12 @@ function Work() {
         </div>
         <p className="section-aside">
           <span data-copy="es">
-            Tres casos de proyectos reales. El código de clientes sigue privado;
-            aquí muestro mi contribución y resultados.
+            Tres casos de proyectos reales. Explora las demos y su código de
+            exhibición con datos ficticios.
           </span>
           <span data-copy="en">
-            Three case studies from real projects. Client code remains private;
-            here I show my contribution and outcomes.
+            Three case studies from real projects. Explore the demos and their
+            showcase source with fictional data.
           </span>
         </p>
       </div>
@@ -484,12 +484,22 @@ function Work() {
             <span data-copy="en">Explore interactive demo</span>
             <span aria-hidden="true">↗</span>
           </a>
+          <a
+            className="project-link project-link-secondary"
+            href="https://github.com/Ernesto248/sgia-showcase"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span data-copy="es">Ver código de la demo</span>
+            <span data-copy="en">View demo source</span>
+            <span aria-hidden="true">↗</span>
+          </a>
           <p className="private-note">
             <span data-copy="es">
-              Demo independiente con datos ficticios · Código del cliente privado
+              Demo y código de exhibición con datos ficticios · Sistema de producción privado
             </span>
             <span data-copy="en">
-              Standalone demo with fictional data · Private client code
+              Demo and showcase source use fictional data · Production system private
             </span>
           </p>
         </div>
@@ -592,12 +602,22 @@ function Work() {
             <span data-copy="en">Explore interactive demo</span>
             <span aria-hidden="true">↗</span>
           </a>
+          <a
+            className="project-link project-link-secondary"
+            href="https://github.com/Ernesto248/tattoo-raffle-showcase"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span data-copy="es">Ver código de la demo</span>
+            <span data-copy="en">View demo source</span>
+            <span aria-hidden="true">↗</span>
+          </a>
           <p className="private-note">
             <span data-copy="es">
-              Demo independiente sin pagos reales · Código del cliente privado
+              Demo y código de exhibición sin pagos reales · Sistema de producción privado
             </span>
             <span data-copy="en">
-              Standalone demo without real payments · Private client code
+              Demo and showcase source without real payments · Production system private
             </span>
           </p>
         </div>

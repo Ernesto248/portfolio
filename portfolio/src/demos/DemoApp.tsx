@@ -14,6 +14,12 @@ const demoRoutes = [
   { slug: "tattoo-raffle", label: "Tattoo Raffle", index: "03", eyebrow: "PAYMENTS & RESERVATIONS" },
 ] as const;
 
+const sourceUrls: Record<(typeof demoRoutes)[number]["slug"], string> = {
+  transactions: "https://github.com/Ernesto248/undertaker-transactions",
+  sgia: "https://github.com/Ernesto248/sgia-showcase",
+  "tattoo-raffle": "https://github.com/Ernesto248/tattoo-raffle-showcase",
+};
+
 export type DemoSlug = (typeof demoRoutes)[number]["slug"];
 const initialLanguage = (): Language => new URLSearchParams(window.location.search).get("lang") === "en" || (new URLSearchParams(window.location.search).get("lang") !== "es" && localStorage.getItem("portfolio-language") === "en") ? "en" : "es";
 
@@ -72,7 +78,7 @@ export function SandboxHeading({ language, title, description }: { language: Lan
 export function DemoFooter({ active, language }: { active: DemoSlug; language: Language }) {
   const current = demoRoutes.findIndex((route) => route.slug === active);
   const next = demoRoutes[(current + 1) % demoRoutes.length];
-  return <footer className="demo-footer"><a href="/#work"><ArrowLeft size={16} /> {t(language, "Volver a proyectos", "Back to projects")}</a><span>LEONARD SOLUTIONS / PRODUCT LAB</span><a href={`/demos/${next.slug}${language === "en" ? "?lang=en" : ""}`}>{t(language, "Siguiente demo", "Next demo")}: {next.label} <ArrowUpRight size={16} /></a></footer>;
+  return <footer className="demo-footer"><a href="/#work"><ArrowLeft size={16} /> {t(language, "Volver a proyectos", "Back to projects")}</a><a href={sourceUrls[active]} target="_blank" rel="noopener noreferrer">{t(language, "Código de esta demo", "Source for this demo")} <ArrowUpRight size={16} /></a><a href={`/demos/${next.slug}${language === "en" ? "?lang=en" : ""}`}>{t(language, "Siguiente demo", "Next demo")}: {next.label} <ArrowUpRight size={16} /></a></footer>;
 }
 
 export function DemoApp() {
