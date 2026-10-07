@@ -9,6 +9,7 @@
 .demo-ticket-controls label{display:grid;gap:5px;color:#94aea2;font:9px "IBM Plex Mono",monospace;white-space:nowrap}
 .demo-ticket-controls input{width:106px;height:34px;border:1px solid var(--demo-line);background:#0a1c20;color:#ecf7f0;padding:0 10px;border-radius:0}
 .demo-ticket-controls input:focus{outline:1px solid var(--demo-accent)}
+.demo-ticket-grid button.chosen,.demo-ticket-grid button.libre.chosen:hover{color:#231812;background:var(--demo-accent);border-color:var(--demo-accent)}
 .demo-branch-map{border:1px solid var(--demo-line);background:radial-gradient(ellipse at 50% 50%,rgba(124,233,207,.09),transparent 55%),#0b1d22;margin:0 0 23px;overflow:hidden}
 .demo-map-head,.demo-map-footer{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:17px 22px;border-bottom:1px solid var(--demo-line)}
 .demo-map-head span,.demo-map-footer{font:10px "IBM Plex Mono",monospace;color:var(--demo-accent)}
