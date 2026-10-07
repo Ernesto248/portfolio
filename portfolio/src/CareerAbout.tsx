@@ -7,121 +7,61 @@ import "./career-about.css";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 type Language = "es" | "en";
-interface Lesson { title: string; detail: string; practice: string; }
+interface Milestone { year: string; label: string; title: string; detail: string; tag: string; }
 
-const lessons: Record<Language, Lesson[]> = {
+const milestones: Record<Language, Milestone[]> = {
   es: [
-    {
-      title: "Definir antes de implementar.",
-      detail: "La Ingeniería Informática me enseñó a descomponer problemas: identificar entidades, reglas y casos límite antes de elegir un framework.",
-      practice: "MODELADO · ALGORITMOS · REQUISITOS",
-    },
-    {
-      title: "Conectar todas las capas.",
-      detail: "Una interfaz útil necesita estado coherente, contratos de API y persistencia clara. Aprendí a diseñar flujos completos con TypeScript, React y PostgreSQL.",
-      practice: "REACT · TYPESCRIPT · POSTGRESQL",
-    },
-    {
-      title: "Proteger las invariantes.",
-      detail: "Cuando hay datos reales, una operación duplicada o un permiso incorrecto rompe el flujo. Ahora diseño validación, transacciones e idempotencia en los puntos críticos.",
-      practice: "VALIDACIÓN · TRANSACCIONES · AUTORIZACIÓN",
-    },
-    {
-      title: "Operar después del deploy.",
-      detail: "Poner una aplicación en producción me enseñó a seguir los fallos, ajustar automatizaciones y mantener el sistema mientras cambian las necesidades del negocio.",
-      practice: "DESPLIEGUE · AUTOMATIZACIÓN · MANTENIMIENTO",
-    },
+    { year: "2022", label: "El comienzo", title: "El punto de partida.", detail: "Comencé la carrera de Ingeniería Informática en Camagüey. Ahí empezó mi camino para entender cómo resolver problemas con software.", tag: "INGENIERÍA INFORMÁTICA · CAMAGÜEY" },
+    { year: "2023", label: "Exploración web", title: "Aprender construyendo.", detail: "Empecé a estudiar tecnologías de desarrollo web y a practicar con proyectos propios. Cada proyecto me ayudó a convertir conceptos nuevos en algo que funcionaba.", tag: "DESARROLLO WEB · PROYECTOS PROPIOS" },
+    { year: "2024", label: "Primera app en producción", title: "Del proyecto al producto.", detail: "Desarrollé mi tesis con Next.js. Fue mi primera aplicación full stack puesta en producción y el momento en que tuve que pensar en el sistema completo.", tag: "TESIS · NEXT.JS · FULL STACK" },
+    { year: "2025", label: "Graduación y clientes", title: "Software para otros.", detail: "Me gradué y, más tarde, llegó mi primer trabajo remunerado como freelancer. Empecé a aplicar lo aprendido a necesidades reales de un cliente.", tag: "GRADUACIÓN · PRIMER TRABAJO FREELANCE" },
+    { year: "HOY", label: "En evolución", title: "Seguir ampliando el mapa.", detail: "Sigo aprendiendo y trabajando como freelancer. Cada nuevo encargo me enfrenta a problemas distintos y amplía mis conocimientos técnicos.", tag: "APRENDIZAJE CONTINUO · FREELANCE" },
   ],
   en: [
-    {
-      title: "Define before implementing.",
-      detail: "Computer Engineering taught me to break problems down: identify entities, rules and edge cases before choosing a framework.",
-      practice: "MODELING · ALGORITHMS · REQUIREMENTS",
-    },
-    {
-      title: "Connect every layer.",
-      detail: "A useful interface needs coherent state, API contracts and clear persistence. I learned to design complete flows with TypeScript, React and PostgreSQL.",
-      practice: "REACT · TYPESCRIPT · POSTGRESQL",
-    },
-    {
-      title: "Protect invariants.",
-      detail: "With real data, a duplicate operation or incorrect permission breaks the flow. I now design validation, transactions and idempotency into critical paths.",
-      practice: "VALIDATION · TRANSACTIONS · AUTHORIZATION",
-    },
-    {
-      title: "Operate after deployment.",
-      detail: "Shipping an application to production taught me to trace failures, refine automation and maintain the system as business needs change.",
-      practice: "DEPLOYMENT · AUTOMATION · MAINTENANCE",
-    },
+    { year: "2022", label: "The beginning", title: "Where it started.", detail: "I began studying Computer Engineering in Camagüey. That was the start of my journey toward solving problems through software.", tag: "COMPUTER ENGINEERING · CAMAGÜEY" },
+    { year: "2023", label: "Exploring the web", title: "Learning by building.", detail: "I started learning web development technologies and practicing through my own projects. Each one turned new concepts into something that worked.", tag: "WEB DEVELOPMENT · PERSONAL PROJECTS" },
+    { year: "2024", label: "First production app", title: "From project to product.", detail: "I built my thesis with Next.js. It became my first full stack application in production and pushed me to think about the entire system.", tag: "THESIS · NEXT.JS · FULL STACK" },
+    { year: "2025", label: "Graduation and clients", title: "Building for others.", detail: "I graduated and later landed my first paid freelance job. I began applying what I had learned to a client's real needs.", tag: "GRADUATION · FIRST PAID FREELANCE JOB" },
+    { year: "NOW", label: "Still evolving", title: "Keep expanding the map.", detail: "I continue learning and working as a freelancer. Each new assignment brings different problems and broadens my technical knowledge.", tag: "CONTINUOUS LEARNING · FREELANCE" },
   ],
 };
 
-const systemLayers = [
-  { number: "01", name: "MODEL", code: "requirements → constraints" },
-  { number: "02", name: "INTERFACE", code: "state → API contract" },
-  { number: "03", name: "DATA", code: "schema → invariant" },
-  { number: "04", name: "OPERATIONS", code: "deploy → observe" },
-];
-
-function LearningSequence({ language }: { language: Language }) {
-  const stageRef = useRef<HTMLDivElement>(null);
+function CareerTimeline({ language }: { language: Language }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const rigRef = useRef<HTMLDivElement>(null);
-  const spineRef = useRef<HTMLDivElement>(null);
-  const haloRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLSpanElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
-  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const glowRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const [active, setActive] = useState(0);
+  const events = milestones[language];
 
   useGSAP(() => {
-    const stage = stageRef.current;
-    const nodes = nodeRefs.current.filter((node): node is HTMLDivElement => Boolean(node));
-    const marks = rootRef.current?.querySelectorAll<HTMLElement>(".learning-node-mark");
-    if (!stage || nodes.length !== systemLayers.length) return;
-
+    if (!stageRef.current) return;
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      const offsets = [
-        { x: -105, y: -45, rotation: -13 },
-        { x: 95, y: -20, rotation: 9 },
-        { x: -75, y: 26, rotation: -8 },
-        { x: 115, y: 52, rotation: 12 },
-      ];
-      nodes.forEach((node, index) => {
-        gsap.set(node, { ...offsets[index], scale: 0.84, opacity: 0.68 });
-      });
-      gsap.set(spineRef.current, { scaleY: 0, transformOrigin: "top center" });
-      gsap.set(statusRef.current, { autoAlpha: 0, y: 20 });
+      gsap.set(lineRef.current, { scaleY: 0, transformOrigin: "top center" });
       gsap.set(progressRef.current, { scaleX: 0, transformOrigin: "left center" });
-      gsap.set(marks ?? [], { autoAlpha: 0, scale: 0.4 });
-
       const timeline = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          trigger: stage,
+          trigger: stageRef.current,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * (window.innerWidth <= 700 ? 3.1 : 3.6))}`,
+          end: () => "+=" + Math.round(window.innerHeight * (window.innerWidth <= 700 ? 4.2 : 4.8)),
           pin: true,
-          scrub: window.innerWidth <= 700 ? 0.45 : 0.8,
+          scrub: window.innerWidth <= 700 ? 0.35 : 0.65,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const next = Math.min(lessons.es.length - 1, Math.floor(self.progress * lessons.es.length));
+            const next = Math.min(milestones.es.length - 1, Math.floor(self.progress * milestones.es.length));
             setActive((previous) => previous === next ? previous : next);
           },
         },
       });
       timeline
-        .to(haloRef.current, { rotation: 54, scale: 1.16, duration: 4 }, 0)
-        .to(progressRef.current, { scaleX: 1, duration: 4 }, 0)
-        .to(nodes, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1.3, stagger: 0.09 }, 0.35)
-        .to(spineRef.current, { scaleY: 1, duration: 0.7 }, 1.55)
-        .to(marks ?? [], { autoAlpha: 1, scale: 1, duration: 0.55, stagger: 0.08 }, 2.15)
-        .to(rigRef.current, { rotationY: -11, rotationX: 7, scale: 1.04, duration: 0.9 }, 2.9)
-        .to(statusRef.current, { autoAlpha: 1, y: 0, duration: 0.55 }, 3.24);
-
+        .to(lineRef.current, { scaleY: 1, duration: 5 }, 0)
+        .to(progressRef.current, { scaleX: 1, duration: 5 }, 0)
+        .fromTo(glowRef.current, { yPercent: -16, xPercent: -8, scale: 0.82 }, { yPercent: 16, xPercent: 8, scale: 1.18, duration: 5 }, 0);
       triggerRef.current = timeline.scrollTrigger ?? null;
       return () => { triggerRef.current = null; };
     });
@@ -131,66 +71,61 @@ function LearningSequence({ language }: { language: Language }) {
   const select = (index: number) => {
     const trigger = triggerRef.current;
     if (!trigger) return;
-    const fraction = (index + 0.5) / lessons.es.length;
+    const fraction = (index + 0.5) / milestones.es.length;
     window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * fraction, behavior: "smooth" });
   };
 
-  const current = lessons[language][active];
-
   return (
-    <div ref={rootRef} className="learning-sequence">
-      <div ref={stageRef} className="learning-stage">
-        <div className="learning-stage-grid" aria-hidden="true" />
-        <div className="shell learning-layout">
-          <div className="learning-story" aria-live="polite" aria-atomic="true">
-            <span className="learning-overline">
-              {language === "es" ? "APRENDIZAJE" : "LESSON"} / {String(active + 1).padStart(2, "0")}
-            </span>
-            <div key={`${language}-${active}`} className="learning-story-copy">
-              <h3>{current.title}</h3>
-              <p>{current.detail}</p>
-              <span className="learning-practice">{current.practice}</span>
+    <div ref={rootRef} className="career-timeline">
+      <div ref={stageRef} className="career-timeline-stage">
+        <div className="career-timeline-grid" aria-hidden="true" />
+        <div ref={glowRef} className="career-timeline-glow" aria-hidden="true" />
+        <div className="shell career-timeline-layout">
+          <div className="career-timeline-story" aria-live="polite" aria-atomic="true">
+            <span className="career-timeline-overline">{language === "es" ? "MI RECORRIDO" : "MY JOURNEY"} / {String(active + 1).padStart(2, "0")}</span>
+            <span key={"year-" + language + "-" + active} className="career-timeline-year">{events[active].year}</span>
+            <div key={"copy-" + language + "-" + active} className="career-timeline-copy">
+              <h3>{events[active].title}</h3>
+              <p>{events[active].detail}</p>
+              <span className="career-timeline-tag">{events[active].tag}</span>
             </div>
           </div>
-          <div className="learning-visual" aria-hidden="true">
-            <div ref={haloRef} className="learning-halo" />
-            <span className="learning-coordinate learning-coordinate-top">ARCHITECTURE / 04 LAYERS</span>
-            <div className="learning-rig-wrap">
-              <div ref={rigRef} className="learning-rig">
-                <div ref={spineRef} className="learning-spine" />
-                {systemLayers.map((layer, index) => (
-                  <div key={layer.number} ref={(node) => { nodeRefs.current[index] = node; }} className="learning-node">
-                    <span className="learning-node-number">{layer.number}</span>
-                    <div className="learning-node-copy"><strong>{layer.name}</strong><small>{layer.code}</small></div>
-                    <span className="learning-node-mark">↗</span>
-                  </div>
-                ))}
-                <div ref={statusRef} className="learning-status"><span className="learning-status-light" /> SYSTEM / OPERATIONAL</div>
-              </div>
-            </div>
-            <span className="learning-coordinate learning-coordinate-bottom">DESIGN / BUILD / OPERATE_</span>
-          </div>
-          <div className="learning-controls">
-            <nav className="learning-index" aria-label={language === "es" ? "Aprendizajes" : "Lessons"}>
-              {lessons[language].map((lesson, index) => (
-                <button key={index} type="button" onClick={() => select(index)} aria-current={active === index ? "step" : undefined} aria-label={`${String(index + 1).padStart(2, "0")}: ${lesson.title}`}>
-                  <span>{String(index + 1).padStart(2, "0")}</span><span className="learning-index-title">{lesson.title}</span>
+          <div className="career-timeline-map">
+            <span className="career-timeline-map-label">{language === "es" ? "CRONOLOGÍA / 05 HITOS" : "TIMELINE / 05 MILESTONES"}</span>
+            <nav className="career-timeline-events" aria-label={language === "es" ? "Etapas de mi carrera" : "Career milestones"}>
+              <span className="career-timeline-rail" aria-hidden="true"><span ref={lineRef} /></span>
+              {events.map((event, index) => (
+                <button
+                  key={event.year}
+                  type="button"
+                  className={index === active ? "is-active" : index < active ? "is-past" : ""}
+                  onClick={() => select(index)}
+                  aria-current={index === active ? "step" : undefined}
+                  aria-label={event.year + ": " + event.label}
+                >
+                  <span className="career-timeline-dot" aria-hidden="true" />
+                  <span className="career-timeline-event-year">{event.year}</span>
+                  <span className="career-timeline-event-label">{event.label}</span>
+                  <span className="career-timeline-event-arrow" aria-hidden="true">↗</span>
                 </button>
               ))}
             </nav>
-            <div className="learning-progress" aria-hidden="true">
-              <span>{language === "es" ? "DESLIZA PARA CONTINUAR" : "SCROLL TO CONTINUE"}</span>
-              <span className="learning-progress-track"><span ref={progressRef} /></span>
-              <span>{String(active + 1).padStart(2, "0")} / 04</span>
-            </div>
+            <span className="career-timeline-map-footer">{language === "es" ? "DE CAMAGÜEY A LO QUE SIGUE_" : "FROM CAMAGÜEY TO WHAT'S NEXT_"}</span>
+          </div>
+          <div className="career-timeline-progress" aria-hidden="true">
+            <span>{language === "es" ? "DESLIZA PARA CONTINUAR" : "SCROLL TO CONTINUE"}</span>
+            <span className="career-timeline-progress-track"><span ref={progressRef} /></span>
+            <span>{String(active + 1).padStart(2, "0")} / 05</span>
           </div>
         </div>
       </div>
-      <div className="learning-static shell">
-        {lessons[language].map((lesson, index) => (
-          <article key={index}>
-            <span>{String(index + 1).padStart(2, "0")} / 04</span>
-            <h3>{lesson.title}</h3><p>{lesson.detail}</p><strong>{lesson.practice}</strong>
+      <div className="career-timeline-static shell">
+        {events.map((event) => (
+          <article key={event.year}>
+            <span>{event.year} / {event.label}</span>
+            <h3>{event.title}</h3>
+            <p>{event.detail}</p>
+            <strong>{event.tag}</strong>
           </article>
         ))}
       </div>
@@ -204,11 +139,11 @@ export function CareerAbout({ language }: { language: Language }) {
       <div className="career-about-heading shell">
         <p className="career-about-kicker">02 / ABOUT ME</p>
         <div className="career-about-heading-grid">
-          <h2 id="about-title"><span data-copy="es">Del código al criterio.</span><span data-copy="en">From code to judgment.</span></h2>
-          <p><span data-copy="es">Cuatro aprendizajes que cambiaron cómo modelo problemas, conecto capas, protejo datos y opero software real.</span><span data-copy="en">Four lessons that changed how I model problems, connect layers, protect data and operate real software.</span></p>
+          <h2 id="about-title"><span data-copy="es">Cómo llegué hasta aquí.</span><span data-copy="en">How I got here.</span></h2>
+          <p><span data-copy="es">De estudiar Ingeniería Informática en Camagüey a crear aplicaciones reales. Esta es la trayectoria detrás de mi trabajo.</span><span data-copy="en">From studying Computer Engineering in Camagüey to building real applications. This is the path behind my work.</span></p>
         </div>
       </div>
-      <LearningSequence language={language} />
+      <CareerTimeline language={language} />
       <div className="career-about-outro">
         <div className="shell career-about-outro-inner">
           <a href="https://github.com/Ernesto248" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
