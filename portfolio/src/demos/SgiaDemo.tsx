@@ -27,9 +27,9 @@ const initialStock = (): Stock => ({
   Oeste: { "P-01": 9, "P-02": 6, "P-03": 5, "P-04": 2 },
   Terminal: { "P-01": 8, "P-02": 7, "P-03": 4, "P-04": 1 },
 });
-const currency = (value: number) => new Intl.NumberFormat("es-ES", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 
 export function SgiaDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+  const currency = (value: number) => new Intl.NumberFormat(language === "es" ? "es-ES" : "en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
   const [stock, setStock] = useDemoSession("sgia-stock", initialStock);
   const [branch, setBranch] = useDemoSession("sgia-branch", () => "Centro");
   const [transfers, setTransfers] = useDemoSession<Transfer[]>("sgia-transfers", () => []);

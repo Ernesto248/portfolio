@@ -24,10 +24,10 @@ const seedAudit = (): AuditEvent[] => [
   { id: 3, kind: "CONTROL", detail: "Código NB-84188 verificado como único", detailEn: "Code NB-84188 verified as unique", time: "09:31" },
 ];
 
-const money = (value: number) => new Intl.NumberFormat("es-ES", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
 const now = () => new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit" }).format(new Date());
 
 export function FinanceDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+  const money = (value: number) => new Intl.NumberFormat(language === "es" ? "es-ES" : "en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
   const [transactions, setTransactions] = useDemoSession("finance-transactions", seedTransactions);
   const [audit, setAudit] = useDemoSession("finance-audit", seedAudit);
   const [selected, setSelected] = useDemoSession("finance-selected", () => "TX-1042");
