@@ -12,6 +12,7 @@ import { Menu } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import { CareerAbout } from "./CareerAbout";
+import "./work.css";
 
 type Language = "es" | "en";
 
@@ -213,10 +214,12 @@ function Hero() {
 function Work() {
   return (
     <section
-      className="work-section shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]"
+      className="work-section"
       id="work"
       aria-labelledby="work-title"
     >
+      <div className="work-atmosphere" aria-hidden="true" />
+      <div className="work-inner shell mx-auto w-[min(calc(100%-36px),1240px)] sm:w-[min(calc(100%-64px),1240px)]">
       <div className="section-heading flex justify-between">
         <div>
           <p className="section-kicker">03 / WORK</p>
@@ -622,6 +625,7 @@ function Work() {
           </p>
         </div>
       </article>
+      </div>
     </section>
   );
 }

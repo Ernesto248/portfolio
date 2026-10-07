@@ -151,6 +151,17 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
             },
           });
 
+          gsap.to(".work-atmosphere", {
+            yPercent: 12,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".work-section",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          });
+
           gsap
             .timeline({
               scrollTrigger: {
@@ -202,6 +213,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               });
 
               if (desktop) {
+                const direction = index === 1 ? 1 : -1;
                 gsap.timeline({
                   scrollTrigger: {
                     trigger: project,
@@ -213,7 +225,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 })
                   .fromTo(
                     visual,
-                    { x: -72, y: 75, rotationY: -24, rotationX: 11, scale: 0.8, autoAlpha: 0.35 },
+                    { x: 58 * direction, y: 64, rotationY: 18 * direction, rotationX: 8, scale: 0.84, autoAlpha: 0.4 },
                     { x: 0, y: 0, rotationY: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.35 },
                     0,
                   )
@@ -225,13 +237,13 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                   )
                   .fromTo(
                     content.children,
-                    { x: 48, y: 30, autoAlpha: 0 },
+                    { x: -42 * direction, y: 30, autoAlpha: 0 },
                     { x: 0, y: 0, autoAlpha: 1, duration: 0.24, stagger: 0.025 },
                     0.16,
                   )
                   .to(
                     visual,
-                    { x: -32, y: -20, rotationY: 12, rotationX: -7, scale: 0.9, autoAlpha: 0.65, duration: 0.27 },
+                    { x: 26 * direction, y: -18, rotationY: -9 * direction, rotationX: -5, scale: 0.93, autoAlpha: 0.72, duration: 0.27 },
                     0.76,
                   );
                 return;
