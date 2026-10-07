@@ -1,4 +1,5 @@
 .demo-language{display:flex;border:1px solid var(--demo-line);padding:2px;flex:none}
+.demo-page{overflow-x:clip;overflow-y:visible}
 .demo-language button{border:0;background:transparent;color:#8ba69d;padding:7px 9px;font:10px "IBM Plex Mono",monospace!important}
 .demo-language button[aria-pressed="true"]{background:var(--demo-accent);color:#08191a}
 .demo-sandbox-heading{scroll-margin-top:120px}

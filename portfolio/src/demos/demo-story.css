@@ -80,8 +80,8 @@
   .demo-story-heading-bottom p { font-size:17px; }
   .demo-story-heading-bottom a { display:inline-block; margin-top:30px; }
   .demo-story-body { display:block; padding-top:35px; }
-  .demo-story-sticky { position:relative; top:auto; height:auto; min-height:0; display:block; }
-  .demo-story-device { height:300px; min-height:0; transform:rotateX(5deg); }
+  .demo-story-sticky { position:sticky; top:103px; z-index:2; height:auto; min-height:0; display:block; background:#071317; padding-bottom:8px; }
+  .demo-story-device { height:240px; min-height:0; transform:rotateX(5deg); }
   .demo-story-counter { display:none; }
   .demo-story-scenes { display:grid; gap:0; }
   .demo-story-scene { min-height:235px; border-bottom:1px solid var(--demo-line); padding:34px 0; }
@@ -96,7 +96,7 @@
   .demo-scenario-bar p { flex-basis:100%; order:2; }
 }
 @media(max-width:460px) {
-  .demo-story-device { height:265px; }
+  .demo-story-device { height:205px; }
   .story-visual-inner { padding:15px; }
   .story-finance-inputs { margin-top:20px; width:56%; gap:6px; }
   .story-finance-inputs span { padding:8px; font-size:7px; }
