@@ -1373,7 +1373,7 @@ body {
   text-shadow: 0 0 40px rgba(71, 221, 204, 0.23);
 }
 .hero-intro {
-  max-width: 480px;
+  max-width: 530px;
   color: #afcecf;
   font-size: clamp(16px, 1.55vw, 19px);
   line-height: 1.45;
@@ -1381,6 +1381,26 @@ body {
 .hero-links {
   margin-top: 39px;
   gap: 30px;
+}
+.hero-quicklinks {
+  display: flex;
+  gap: 24px;
+  margin-top: 26px;
+  color: #a4c9c8;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.hero-quicklinks a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(164, 201, 200, 0.45);
+  padding-bottom: 3px;
+}
+.hero-quicklinks a:hover,
+.hero-quicklinks a:focus-visible {
+  color: #86f3df;
+  border-color: currentColor;
 }
 .hero .button-primary {
   min-width: 196px;

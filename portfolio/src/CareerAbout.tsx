@@ -11,14 +11,14 @@ interface Milestone { year: string; label: string; title: string; detail: string
 
 const milestones: Record<Language, Milestone[]> = {
   es: [
-    { year: "2022", label: "El comienzo", title: "El punto de partida.", detail: "Comencé la carrera de Ingeniería Informática en Camagüey. Ahí empezó mi camino para entender cómo resolver problemas con software.", tag: "INGENIERÍA INFORMÁTICA · CAMAGÜEY" },
+    { year: "2021", label: "El comienzo", title: "El punto de partida.", detail: "Comencé la carrera de Ingeniería Informática en Camagüey. Ahí empezó mi camino para entender cómo resolver problemas con software.", tag: "INGENIERÍA INFORMÁTICA · CAMAGÜEY" },
     { year: "2023", label: "Exploración web", title: "Aprender construyendo.", detail: "Empecé a estudiar tecnologías de desarrollo web y a practicar con proyectos propios. Cada proyecto me ayudó a convertir conceptos nuevos en algo que funcionaba.", tag: "DESARROLLO WEB · PROYECTOS PROPIOS" },
     { year: "2024", label: "Primera app en producción", title: "Del proyecto al producto.", detail: "Desarrollé mi tesis con Next.js. Fue mi primera aplicación full stack puesta en producción y el momento en que tuve que pensar en el sistema completo.", tag: "TESIS · NEXT.JS · FULL STACK" },
     { year: "2025", label: "Graduación y clientes", title: "Software para otros.", detail: "Me gradué y, más tarde, llegó mi primer trabajo remunerado como freelancer. Empecé a aplicar lo aprendido a necesidades reales de un cliente.", tag: "GRADUACIÓN · PRIMER TRABAJO FREELANCE" },
     { year: "HOY", label: "En evolución", title: "Seguir ampliando el mapa.", detail: "Sigo aprendiendo y trabajando como freelancer. Cada nuevo encargo me enfrenta a problemas distintos y amplía mis conocimientos técnicos.", tag: "APRENDIZAJE CONTINUO · FREELANCE" },
   ],
   en: [
-    { year: "2022", label: "The beginning", title: "Where it started.", detail: "I began studying Computer Engineering in Camagüey. That was the start of my journey toward solving problems through software.", tag: "COMPUTER ENGINEERING · CAMAGÜEY" },
+    { year: "2021", label: "The beginning", title: "Where it started.", detail: "I began studying Computer Engineering in Camagüey. That was the start of my journey toward solving problems through software.", tag: "COMPUTER ENGINEERING · CAMAGÜEY" },
     { year: "2023", label: "Exploring the web", title: "Learning by building.", detail: "I started learning web development technologies and practicing through my own projects. Each one turned new concepts into something that worked.", tag: "WEB DEVELOPMENT · PERSONAL PROJECTS" },
     { year: "2024", label: "First production app", title: "From project to product.", detail: "I built my thesis with Next.js. It became my first full stack application in production and pushed me to think about the entire system.", tag: "THESIS · NEXT.JS · FULL STACK" },
     { year: "2025", label: "Graduation and clients", title: "Building for others.", detail: "I graduated and later landed my first paid freelance job. I began applying what I had learned to a client's real needs.", tag: "GRADUATION · FIRST PAID FREELANCE JOB" },

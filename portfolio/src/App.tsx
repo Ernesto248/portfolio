@@ -168,8 +168,8 @@ function Hero() {
         <div className="hero-copy">
           <p className="eyebrow">
             <span className="eyebrow-mark" aria-hidden="true"></span>
-            <span data-copy="es">ERNESTO LEONARD / FULL STACK</span>
-            <span data-copy="en">ERNESTO LEONARD / FULL STACK</span>
+            <span data-copy="es">ERNESTO LEONARD ESCARIZ / FULL STACK</span>
+            <span data-copy="en">ERNESTO LEONARD ESCARIZ / FULL STACK</span>
           </p>
           <h1 id="hero-title">
             <span data-copy="es">
@@ -181,10 +181,10 @@ function Hero() {
           </h1>
           <p className="hero-intro">
             <span data-copy="es">
-              De la interfaz a los datos. Software pensado para funcionar en el mundo real.
+              Desarrollador full stack en Valencia. Construyo productos web con Next.js, TypeScript y PostgreSQL para operaciones reales.
             </span>
             <span data-copy="en">
-              From interface to data. Software built to work in the real world.
+              Full stack developer in Valencia. I build web products with Next.js, TypeScript and PostgreSQL for real operations.
             </span>
           </p>
           <div className="hero-links">
@@ -198,6 +198,10 @@ function Hero() {
               <span data-copy="en">Let's talk</span>
               <span aria-hidden="true">↗</span>
             </a>
+          </div>
+          <div className="hero-quicklinks" aria-label="Perfiles profesionales" data-aria-es="Perfiles profesionales" data-aria-en="Professional profiles">
+            <a href="https://github.com/Ernesto248" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/ernesto-leonard-escariz-747685252/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
         </div>
       </div>
