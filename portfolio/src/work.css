@@ -3,7 +3,7 @@
   isolation: isolate;
   width: 100%;
   margin: 0;
-  padding: clamp(100px, 12vw, 170px) 0 140px;
+  padding: clamp(88px, 9vw, 135px) 0 100px;
   overflow: clip;
   background: linear-gradient(180deg, #081c24 0%, #071820 44%, #0a2028 100%);
   color: #eaf8f4;
@@ -39,8 +39,8 @@
 .work-section .section-heading {
   align-items: end;
   gap: 70px;
-  margin-bottom: 66px;
-  padding-bottom: 43px;
+  margin-bottom: 50px;
+  padding-bottom: 35px;
   border-bottom: 1px solid rgba(148, 211, 203, 0.18);
 }
 
@@ -359,8 +359,8 @@
 .project-preview-full:hover,.project-preview-full:focus-visible { color: #eaf8f4; }
 
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
-  .work-section .project { min-height: max(850px, 128svh); padding-block: 75px 130px; }
-  .work-section .project-visual { top: max(145px, calc((100svh - 530px) / 2)); height: min(62svh, 530px); }
+  .work-section .project { min-height: max(820px, 115svh); padding-block: 50px 80px; }
+  .work-section .project-visual { top: max(108px, calc((100svh - 530px) / 2)); height: min(62svh, 530px); }
 }
 
 @media (max-width: 900px) {

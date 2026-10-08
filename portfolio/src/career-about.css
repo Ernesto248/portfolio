@@ -172,11 +172,11 @@
   letter-spacing: -0.105em;
   line-height: 0.9;
   text-shadow: 0 0 100px rgba(112, 228, 198, 0.15);
-  animation: career-year-enter 0.45s both;
+  animation: career-year-enter 0.3s both;
 }
 
 .career-timeline-copy {
-  animation: career-copy-enter 0.45s both;
+  animation: career-copy-enter 0.3s both;
 }
 
 .career-timeline-copy h3 {

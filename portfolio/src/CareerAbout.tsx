@@ -47,9 +47,9 @@ function CareerTimeline({ language }: { language: Language }) {
         scrollTrigger: {
           trigger: stageRef.current,
           start: "top top",
-          end: () => "+=" + Math.round(window.innerHeight * (window.innerWidth <= 700 ? 4.2 : 4.8)),
+          end: () => "+=" + Math.round(window.innerHeight * (window.innerWidth <= 700 ? 3.3 : 3.2)),
           pin: true,
-          scrub: window.innerWidth <= 700 ? 0.35 : 0.65,
+          scrub: window.innerWidth <= 700 ? 0.22 : 0.38,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {

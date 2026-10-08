@@ -111,7 +111,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               trigger: ".hero",
               start: "top top",
               end: "bottom top",
-              scrub: 1,
+              scrub: 0.45,
             },
           });
 
@@ -122,7 +122,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                   trigger: ".hero",
                   start: "top top",
                   end: "bottom top",
-                  scrub: 1.2,
+                  scrub: 0.55,
                 },
                 defaults: { ease: "none" },
               })
@@ -135,7 +135,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               yPercent: 12,
               scale: 1.1,
               ease: "none",
-              scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.8 },
+              scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.4 },
             });
           }
 
@@ -158,7 +158,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               trigger: ".work-section",
               start: "top bottom",
               end: "bottom top",
-              scrub: 1,
+              scrub: 0.45,
             },
           });
 
@@ -217,34 +217,34 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 gsap.timeline({
                   scrollTrigger: {
                     trigger: project,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1,
+                    start: "top 92%",
+                    end: "bottom 8%",
+                    scrub: 0.35,
                   },
                   defaults: { ease: "none" },
                 })
                   .fromTo(
                     visual,
                     { x: 58 * direction, y: 64, rotationY: 18 * direction, rotationX: 8, scale: 0.84, autoAlpha: 0.4 },
-                    { x: 0, y: 0, rotationY: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.35 },
+                    { x: 0, y: 0, rotationY: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.22 },
                     0,
                   )
                   .fromTo(
                     details,
                     { z: -80, y: 32, autoAlpha: 0 },
-                    { z: 0, y: 0, autoAlpha: 1, duration: 0.25, stagger: 0.025 },
-                    0.12,
+                    { z: 0, y: 0, autoAlpha: 1, duration: 0.22, stagger: 0.015 },
+                    0.08,
                   )
                   .fromTo(
                     content.children,
                     { x: -42 * direction, y: 30, autoAlpha: 0 },
-                    { x: 0, y: 0, autoAlpha: 1, duration: 0.24, stagger: 0.025 },
-                    0.16,
+                    { x: 0, y: 0, autoAlpha: 1, duration: 0.18, stagger: 0.012 },
+                    0.08,
                   )
                   .to(
                     visual,
-                    { x: 26 * direction, y: -18, rotationY: -9 * direction, rotationX: -5, scale: 0.93, autoAlpha: 0.72, duration: 0.27 },
-                    0.76,
+                    { x: 18 * direction, y: -14, rotationY: -5 * direction, rotationX: -3, scale: 0.97, autoAlpha: 0.9, duration: 0.12 },
+                    0.92,
                   );
                 return;
               }
@@ -262,7 +262,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                     trigger: project,
                     start: "top bottom",
                     end: "bottom top",
-                    scrub: 0.65,
+                    scrub: 0.3,
                   },
                 },
               );
@@ -278,8 +278,8 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               gsap.from(content.children, {
                 y: travel,
                 autoAlpha: 0,
-                duration: 0.65,
-                stagger: 0.075,
+                duration: 0.45,
+                stagger: 0.04,
                 ease: "power3.out",
                 scrollTrigger: { trigger: content, start: "top 90%", once: true },
               });
@@ -290,7 +290,7 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
               trigger: ".contact-prelude",
               start: "top top",
               end: "bottom bottom",
-              scrub: desktop ? 0.8 : 0.5,
+              scrub: desktop ? 0.35 : 0.25,
             },
             defaults: { ease: "none" },
           })
