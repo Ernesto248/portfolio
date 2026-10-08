@@ -16,6 +16,11 @@ import "./work.css";
 
 type Language = "es" | "en";
 
+const cvPaths: Record<Language, string> = {
+  es: "/cv/Ernesto-Leonard-Escariz-CV-2026.pdf",
+  en: "/cv/Ernesto-Leonard-Escariz-CV-2026-EN.pdf",
+};
+
 const descriptions: Record<Language, string> = {
   es: "Leonard Solutions, el portfolio de Ernesto Leonard Escariz. Aplicaciones web, automatización y sistemas de negocio en producción.",
   en: "Leonard Solutions, the portfolio of Ernesto Leonard Escariz. Web applications, automation and production business systems.",
@@ -67,6 +72,7 @@ function Header({
             <span data-copy="es">Contacto</span>
             <span data-copy="en">Contact</span>
           </a>
+          <a href={cvPaths[language]} target="_blank" rel="noopener noreferrer" aria-label={language === "es" ? "Abrir CV en PDF" : "Open resume PDF"}>CV ↗</a>
         </nav>
         <div className="header-actions">
           <div className="mobile-menu">
@@ -102,6 +108,9 @@ function Header({
                   </a>
                   <a href="#contact" onClick={() => setMenuOpen(false)}>
                     {language === "es" ? "Contacto" : "Contact"}
+                  </a>
+                  <a href={cvPaths[language]} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>
+                    {language === "es" ? "Abrir CV (PDF) ↗" : "Open resume (PDF) ↗"}
                   </a>
                 </nav>
               </SheetContent>
@@ -147,7 +156,7 @@ function Header({
   );
 }
 
-function Hero() {
+function Hero({ language }: { language: Language }) {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-atmosphere" aria-hidden="true"></div>
@@ -200,6 +209,7 @@ function Hero() {
             </a>
           </div>
           <div className="hero-quicklinks" aria-label="Perfiles profesionales" data-aria-es="Perfiles profesionales" data-aria-en="Professional profiles">
+            <a href={cvPaths[language]} target="_blank" rel="noopener noreferrer">{language === "es" ? "CV (PDF) ↗" : "Resume (PDF) ↗"}</a>
             <a href="https://github.com/Ernesto248" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
             <a href="https://www.linkedin.com/in/ernesto-leonard-escariz-747685252/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
@@ -822,7 +832,7 @@ function App() {
       </a>
       <Header language={language} setLanguage={setLanguage} />
       <main id="main">
-        <Hero />
+        <Hero language={language} />
         <CareerAbout language={language} />
         <Work />
         <ContactPrelude />
