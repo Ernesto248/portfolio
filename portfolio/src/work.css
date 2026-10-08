@@ -87,7 +87,7 @@
   --project-accent: #89e5d8;
   --project-wash: rgba(90, 208, 200, 0.16);
   grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
-  align-items: center;
+  align-items: start;
   min-height: 690px;
   gap: clamp(40px, 7vw, 100px);
   margin: 0;
@@ -360,7 +360,8 @@
 
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
   .work-section .project { min-height: max(820px, 115svh); padding-block: 50px 80px; }
-  .work-section .project-visual { top: max(108px, calc((100svh - 530px) / 2)); height: min(62svh, 530px); }
+  .work-section .project-visual { position: sticky; top: max(108px, calc((100svh - 530px) / 2)); height: min(62svh, 530px); }
+  .work-section .project-content { align-self: start; }
 }
 
 @media (max-width: 900px) {

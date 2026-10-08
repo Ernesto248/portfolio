@@ -217,52 +217,52 @@ export function usePortfolioMotion(scope: RefObject<HTMLDivElement | null>) {
                 gsap.timeline({
                   scrollTrigger: {
                     trigger: project,
-                    start: "top 92%",
-                    end: "bottom 8%",
-                    scrub: 0.35,
+                    start: "top 70%",
+                    end: "bottom 30%",
+                    scrub: 0.25,
                   },
                   defaults: { ease: "none" },
                 })
                   .fromTo(
                     visual,
-                    { x: 58 * direction, y: 64, rotationY: 18 * direction, rotationX: 8, scale: 0.84, autoAlpha: 0.4 },
-                    { x: 0, y: 0, rotationY: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.22 },
+                    { x: 96 * direction, y: 86, rotationY: 22 * direction, rotationX: 10, scale: 0.78, autoAlpha: 0.24 },
+                    { x: 0, y: 0, rotationY: 0, rotationX: 0, scale: 1, autoAlpha: 1, duration: 0.48 },
                     0,
                   )
                   .fromTo(
                     details,
-                    { z: -80, y: 32, autoAlpha: 0 },
-                    { z: 0, y: 0, autoAlpha: 1, duration: 0.22, stagger: 0.015 },
-                    0.08,
+                    { z: -90, y: 40, autoAlpha: 0 },
+                    { z: 0, y: 0, autoAlpha: 1, duration: 0.3, stagger: 0.018 },
+                    0.12,
                   )
                   .fromTo(
                     content.children,
-                    { x: -42 * direction, y: 30, autoAlpha: 0 },
-                    { x: 0, y: 0, autoAlpha: 1, duration: 0.18, stagger: 0.012 },
-                    0.08,
+                    { x: -56 * direction, y: 38, autoAlpha: 0 },
+                    { x: 0, y: 0, autoAlpha: 1, duration: 0.34, stagger: 0.025 },
+                    0.1,
                   )
                   .to(
                     visual,
-                    { x: 18 * direction, y: -14, rotationY: -5 * direction, rotationX: -3, scale: 0.97, autoAlpha: 0.9, duration: 0.12 },
-                    0.92,
+                    { x: 18 * direction, y: -24, rotationY: -5 * direction, rotationX: -3, scale: 0.98, duration: 0.15 },
+                    0.85,
                   );
                 return;
               }
 
               gsap.fromTo(visual,
-                { y: 46, rotationX: 12, rotationY: -7, scale: 0.91, autoAlpha: 0.72 },
+                { y: 70, rotationX: 14, rotationY: -8, scale: 0.86, autoAlpha: 0.35 },
                 {
-                  y: -20,
+                  y: -10,
                   rotationX: -4,
                   rotationY: 4,
-                  scale: 1.02,
+                  scale: 1,
                   autoAlpha: 1,
                   ease: "none",
                   scrollTrigger: {
                     trigger: project,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 0.3,
+                    start: "top 90%",
+                    end: "top 10%",
+                    scrub: 0.25,
                   },
                 },
               );
