@@ -9,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Dialog as DialogPrimitive } from "radix-ui";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePortfolioMotion } from "./usePortfolioMotion";
 import { CareerAbout } from "./CareerAbout";
@@ -225,7 +226,10 @@ function Hero({ language }: { language: Language }) {
   );
 }
 
-function Work() {
+type PreviewSlug = "transactions" | "sgia" | "tattoo-raffle";
+
+function Work({ language }: { language: Language }) {
+  const [preview, setPreview] = useState<{ slug: PreviewSlug; title: string } | null>(null);
   return (
     <section
       className="work-section"
@@ -377,6 +381,11 @@ function Work() {
               n8n
             </Badge>
           </div>
+          <button className="project-preview-trigger" type="button" onClick={() => setPreview({ slug: "transactions", title: "Transactions" })}>
+            <span data-copy="es">Vista rápida de la reconstrucción</span>
+            <span data-copy="en">Quick reconstruction preview</span>
+            <span aria-hidden="true">↗</span>
+          </button>
           <a
             className="project-link"
             href="/demos/transactions"
@@ -496,6 +505,11 @@ function Work() {
               PostgreSQL
             </Badge>
           </div>
+          <button className="project-preview-trigger" type="button" onClick={() => setPreview({ slug: "sgia", title: "S.G.I.A." })}>
+            <span data-copy="es">Vista rápida de la reconstrucción</span>
+            <span data-copy="en">Quick reconstruction preview</span>
+            <span aria-hidden="true">↗</span>
+          </button>
           <a className="project-link" href="/demos/sgia">
             <span data-copy="es">Explorar demo interactiva</span>
             <span data-copy="en">Explore interactive demo</span>
@@ -614,6 +628,11 @@ function Work() {
               Supabase
             </Badge>
           </div>
+          <button className="project-preview-trigger" type="button" onClick={() => setPreview({ slug: "tattoo-raffle", title: "Tattoo Raffle" })}>
+            <span data-copy="es">Vista rápida de la reconstrucción</span>
+            <span data-copy="en">Quick reconstruction preview</span>
+            <span aria-hidden="true">↗</span>
+          </button>
           <a className="project-link" href="/demos/tattoo-raffle">
             <span data-copy="es">Explorar demo interactiva</span>
             <span data-copy="en">Explore interactive demo</span>
@@ -640,6 +659,31 @@ function Work() {
         </div>
       </article>
       </div>
+      <DialogPrimitive.Root open={Boolean(preview)} onOpenChange={(open) => { if (!open) setPreview(null); }}>
+        <DialogPrimitive.Portal>
+          <DialogPrimitive.Overlay className="project-preview-overlay" />
+          <DialogPrimitive.Content className="project-preview-dialog">
+            <div className="project-preview-head">
+              <div>
+                <p>{language === "es" ? "VISTA RÁPIDA / DATOS FICTICIOS" : "QUICK PREVIEW / FICTIONAL DATA"}</p>
+                <DialogPrimitive.Title>{preview?.title}</DialogPrimitive.Title>
+                <DialogPrimitive.Description className="project-preview-description">
+                  {language === "es" ? "Reconstrucción interactiva del flujo principal. No conecta con producción." : "Interactive reconstruction of the main flow. No production connection."}
+                </DialogPrimitive.Description>
+              </div>
+              <DialogPrimitive.Close className="project-preview-close" aria-label={language === "es" ? "Cerrar vista rápida" : "Close preview"}>×</DialogPrimitive.Close>
+            </div>
+            {preview && <iframe
+              className="project-preview-frame"
+              title={language === "es" ? `Vista rápida de ${preview.title}` : `${preview.title} quick preview`}
+              src={`/demos/${preview.slug}?preview=1&lang=${language}`}
+            />}
+            {preview && <a className="project-preview-full" href={`/demos/${preview.slug}?lang=${language}`}>
+              {language === "es" ? "Abrir demo completa" : "Open full demo"} <span aria-hidden="true">↗</span>
+            </a>}
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
     </section>
   );
 }
@@ -834,7 +878,7 @@ function App() {
       <main id="main">
         <Hero language={language} />
         <CareerAbout language={language} />
-        <Work />
+        <Work language={language} />
         <ContactPrelude />
         <Contact language={language} />
       </main>

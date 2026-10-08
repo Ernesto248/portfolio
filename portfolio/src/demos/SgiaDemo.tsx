@@ -28,7 +28,7 @@ const initialStock = (): Stock => ({
   Terminal: { "P-01": 8, "P-02": 7, "P-03": 4, "P-04": 1 },
 });
 
-export function SgiaDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+export function SgiaDemo({ language, onLanguageChange, preview = false }: { language: Language; onLanguageChange: (language: Language) => void; preview?: boolean }) {
   const currency = (value: number) => new Intl.NumberFormat(language === "es" ? "es-ES" : "en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
   const [stock, setStock] = useDemoSession("sgia-stock", initialStock);
   const [branch, setBranch] = useDemoSession("sgia-branch", () => "Centro");
@@ -91,9 +91,9 @@ export function SgiaDemo({ language, onLanguageChange }: { language: Language; o
   }
 
   return <div className="demo-page demo-sgia">
-    <DemoHeader active="sgia" onReset={reset} language={language} onLanguageChange={onLanguageChange} />
+    <DemoHeader active="sgia" onReset={reset} language={language} onLanguageChange={onLanguageChange} preview={preview} />
     <main className="demo-main">
-      <DemoStory slug="sgia" language={language} />
+      {!preview && <DemoStory slug="sgia" language={language} />}
       <SandboxHeading language={language} title={t(language, "Sigue cada unidad.", "Track every unit.")} description={t(language, "Envía desde Centro, cambia a Norte, recibe y registra una venta. El balance permanece visible.", "Dispatch from Centro, switch to Norte, receive and record a sale. The balance stays visible.")} />
       <div className="demo-flow"><span><Boxes size={17} /> {t(language, "CATÁLOGO", "CATALOG")}</span><i /><span>{t(language, "6 SUCURSALES", "6 BRANCHES")}</span><i /><span>{t(language, "TRANSFERENCIAS", "TRANSFERS")}</span><i /><span>{t(language, "PUNTO DE VENTA", "POINT OF SALE")}</span></div>
       <div className="demo-scenario-bar"><span>{t(language, "PRUEBA EL RECORRIDO", "TRY THE FLOW")}</span><p>{t(language, "Envía 2 kits de Centro a Norte, abre Norte, confirma y vende 1 unidad.", "Send 2 kits from Centro to Norte, open Norte, confirm receipt and sell 1 unit.")}</p><button type="button" onClick={() => { setBranch("Centro"); setTarget("Norte"); setTransferProduct("P-01"); setTransferQuantity("2"); setSaleProduct("P-01"); setSaleQuantity("1"); }}>{t(language, "Preparar escenario", "Prepare scenario")}</button></div>

@@ -21,7 +21,7 @@ const initialEvents = (): Audit[] => ([
     { id: 2, type: "RESERVA", detail: "Las entradas 187 y 196 fueron asignadas sin conflicto", detailEn: "Tickets 187 and 196 were assigned without conflict" },
   ]);
 
-export function RaffleDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+export function RaffleDemo({ language, onLanguageChange, preview = false }: { language: Language; onLanguageChange: (language: Language) => void; preview?: boolean }) {
   const [tickets, setTickets] = useDemoSession("raffle-tickets", initialTickets);
   const [selected, setSelected] = useDemoSession<number[]>("raffle-selected", () => []);
   const [reservation, setReservation] = useDemoSession<Reservation | null>("raffle-reservation", () => null);
@@ -102,9 +102,9 @@ export function RaffleDemo({ language, onLanguageChange }: { language: Language;
   }
 
   return <div className="demo-page demo-raffle">
-    <DemoHeader active="tattoo-raffle" onReset={reset} language={language} onLanguageChange={onLanguageChange} />
+    <DemoHeader active="tattoo-raffle" onReset={reset} language={language} onLanguageChange={onLanguageChange} preview={preview} />
     <main className="demo-main">
-      <DemoStory slug="tattoo-raffle" language={language} />
+      {!preview && <DemoStory slug="tattoo-raffle" language={language} />}
       <SandboxHeading language={language} title={t(language, "Elige. Reserva. Comprueba.", "Choose. Reserve. Verify.")} description={t(language, "Prueba la campaña como participante y revisa cada evento en la vista de control.", "Try the campaign as a participant and inspect each event in the control view.")} />
       <div className="demo-flow"><span><Ticket size={17} /> {t(language, "SELECCIÓN", "SELECTION")}</span><i /><span>{t(language, "RESERVA SIMULADA", "SIMULATED RESERVATION")}</span><i /><span>{t(language, "CHECKOUT SIMULADO", "SIMULATED CHECKOUT")}</span><i /><span>{t(language, "EVENTO REPETIBLE", "REPLAYABLE EVENT")}</span></div>
       <div className="demo-metrics demo-metrics-four"><Metric label={t(language, "PARTICIPACIONES", "ENTRIES")} value="200" detail="001—200" /><Metric label={t(language, "DISPONIBLES", "AVAILABLE")} value={String(available).padStart(3, "0")} /><Metric label={t(language, "RESERVADAS", "RESERVED")} value={String(reserved).padStart(2, "0")} /><Metric label={t(language, "ASIGNADAS", "ASSIGNED")} value={String(sold).padStart(3, "0")} className="demo-metric-emphasis" /></div>

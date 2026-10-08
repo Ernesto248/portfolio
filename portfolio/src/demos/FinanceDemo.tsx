@@ -26,7 +26,7 @@ const seedAudit = (): AuditEvent[] => [
 
 const now = () => new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit" }).format(new Date());
 
-export function FinanceDemo({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+export function FinanceDemo({ language, onLanguageChange, preview = false }: { language: Language; onLanguageChange: (language: Language) => void; preview?: boolean }) {
   const money = (value: number) => new Intl.NumberFormat(language === "es" ? "es-ES" : "en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
   const [transactions, setTransactions] = useDemoSession("finance-transactions", seedTransactions);
   const [audit, setAudit] = useDemoSession("finance-audit", seedAudit);
@@ -88,9 +88,9 @@ export function FinanceDemo({ language, onLanguageChange }: { language: Language
   }
 
   return <div className="demo-page demo-finance">
-    <DemoHeader active="transactions" onReset={reset} language={language} onLanguageChange={onLanguageChange} />
+    <DemoHeader active="transactions" onReset={reset} language={language} onLanguageChange={onLanguageChange} preview={preview} />
     <main className="demo-main">
-      <DemoStory slug="transactions" language={language} />
+      {!preview && <DemoStory slug="transactions" language={language} />}
       <SandboxHeading language={language} title={t(language, "Del aviso al libro.", "From alert to ledger.")} description={t(language, "Registra una entrada, repite su código y asígnala. Compara el estado antes y después de cada acción.", "Create an entry, repeat its code and assign it. Compare state before and after each action.")} />
       <div className="demo-flow"><span><DatabaseZap size={16} /> {t(language, "INGESTA", "INGEST")}</span><i /><span>{t(language, "VALIDACIÓN", "VALIDATION")}</span><i /><span>{t(language, "LIBRO AUDITABLE", "AUDITABLE LEDGER")}</span><i /><span>{t(language, "ASIGNACIÓN", "ASSIGNMENT")}</span></div>
       <div className="demo-finance-stream"><span>{t(language, "AVISOS DISPERSOS", "SCATTERED ALERTS")}</span><div><i>North Bank / NB-84219 / $480</i><i>Harbor Bank / HB-56308 / $275</i><i>North Bank / NB-84219 / <b>{t(language, "REPETIDO", "REPEAT")}</b></i></div><strong>↘</strong><p>{t(language, "Un registro validado con clave banco + código", "One validated record keyed by bank + code")}</p></div>

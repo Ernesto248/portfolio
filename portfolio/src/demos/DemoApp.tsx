@@ -23,20 +23,20 @@ const sourceUrls: Record<(typeof demoRoutes)[number]["slug"], string> = {
 export type DemoSlug = (typeof demoRoutes)[number]["slug"];
 const initialLanguage = (): Language => new URLSearchParams(window.location.search).get("lang") === "en" || (new URLSearchParams(window.location.search).get("lang") !== "es" && localStorage.getItem("portfolio-language") === "en") ? "en" : "es";
 
-export function DemoHeader({ active, onReset, language, onLanguageChange }: { active: DemoSlug; onReset: () => void; language: Language; onLanguageChange: (language: Language) => void }) {
+export function DemoHeader({ active, onReset, language, onLanguageChange, preview = false }: { active: DemoSlug; onReset: () => void; language: Language; onLanguageChange: (language: Language) => void; preview?: boolean }) {
   return (
     <header className="demo-header">
       <div className="demo-header-inner">
         <a className="demo-brand" href="/#work" aria-label="Volver a Leonard Solutions">
           LEONARD<span>/</span>SOLUTIONS <small>LAB</small>
         </a>
-        <nav className="demo-nav" aria-label="Demos">
+        {!preview && <nav className="demo-nav" aria-label="Demos">
           {demoRoutes.map((route) => (
             <a key={route.slug} className={route.slug === active ? "active" : ""} href={`/demos/${route.slug}`} aria-current={route.slug === active ? "page" : undefined}>
               <span>{route.index}</span> {route.label}
             </a>
           ))}
-        </nav>
+        </nav>}
         <div className="demo-language" role="group" aria-label="Language / Idioma"><button type="button" aria-pressed={language === "es"} onClick={() => onLanguageChange("es")}>ES</button><button type="button" aria-pressed={language === "en"} onClick={() => onLanguageChange("en")}>EN</button></div>
         <button className="demo-reset" type="button" onClick={onReset}>
           <RotateCcw size={15} aria-hidden="true" /> {t(language, "Reiniciar", "Reset")}
@@ -83,6 +83,7 @@ export function DemoFooter({ active, language }: { active: DemoSlug; language: L
 
 export function DemoApp() {
   const slug = window.location.pathname.replace(/\/$/, "").split("/")[2];
+  const preview = new URLSearchParams(window.location.search).get("preview") === "1";
   const [language, setLanguage] = useState<Language>(initialLanguage);
   useEffect(() => {
     const route = demoRoutes.find((item) => item.slug === slug);
@@ -95,7 +96,7 @@ export function DemoApp() {
     return () => document.body.classList.remove("demo-body");
   }, [slug, language]);
 
-  const common = { language, onLanguageChange: setLanguage };
+  const common = { language, onLanguageChange: setLanguage, preview };
   if (slug === "transactions") return <FinanceDemo {...common} />;
   if (slug === "sgia") return <SgiaDemo {...common} />;
   if (slug === "tattoo-raffle") return <RaffleDemo {...common} />;
