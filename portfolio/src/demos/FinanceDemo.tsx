@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { ArrowDownRight, ArrowRight, Check, CircleAlert, DatabaseZap, Plus } from "lucide-react";
+import { ArrowDownRight, ArrowRight, Check, CircleAlert, Plus } from "lucide-react";
 import { DemoFooter, DemoHeader, Metric, Panel, SandboxHeading } from "./DemoApp";
 import { t } from "./demo-i18n";
 import type { Language } from "./demo-i18n";
-import { DemoStory } from "./DemoStory";
+import { DemoCaseStudy } from "./DemoCaseStudy";
 import { useDemoSession } from "./demo-session";
 
 type Transaction = { id: string; bank: string; code: string; sender: string; amount: number; status: "pendiente" | "asignada"; agent?: string };
@@ -90,18 +90,16 @@ export function FinanceDemo({ language, onLanguageChange, preview = false }: { l
   return <div className="demo-page demo-finance">
     <DemoHeader active="transactions" onReset={reset} language={language} onLanguageChange={onLanguageChange} preview={preview} />
     <main className="demo-main">
-      {!preview && <DemoStory slug="transactions" language={language} />}
-      <SandboxHeading language={language} title={t(language, "Del aviso al libro.", "From alert to ledger.")} description={t(language, "Registra una entrada, repite su código y asígnala. Compara el estado antes y después de cada acción.", "Create an entry, repeat its code and assign it. Compare state before and after each action.")} />
-      <div className="demo-flow"><span><DatabaseZap size={16} /> {t(language, "INGESTA", "INGEST")}</span><i /><span>{t(language, "VALIDACIÓN", "VALIDATION")}</span><i /><span>{t(language, "LIBRO AUDITABLE", "AUDITABLE LEDGER")}</span><i /><span>{t(language, "ASIGNACIÓN", "ASSIGNMENT")}</span></div>
-      <div className="demo-finance-stream"><span>{t(language, "AVISOS DISPERSOS", "SCATTERED ALERTS")}</span><div><i>North Bank / NB-84219 / $480</i><i>Harbor Bank / HB-56308 / $275</i><i>North Bank / NB-84219 / <b>{t(language, "REPETIDO", "REPEAT")}</b></i></div><strong>↘</strong><p>{t(language, "Un registro validado con clave banco + código", "One validated record keyed by bank + code")}</p></div>
-      <div className="demo-scenario-bar"><span>{t(language, "TRES CASOS", "THREE CASES")}</span><p>{t(language, "Carga una entrada nueva, intenta duplicar NB-84219 y asigna TX-1042.", "Create a new entry, try duplicating NB-84219 and assign TX-1042.")}</p><button type="button" onClick={() => { setBank("North Bank"); setCode("NB-84219"); setSender("Cliente demo"); setAmount("480"); }}>{t(language, "Preparar duplicado", "Prepare duplicate")}</button><button type="button" onClick={() => { setBank("Crest Bank"); setCode("CB-13001"); setSender("Cliente F"); setAmount("320"); }}>{t(language, "Preparar nueva", "Prepare new entry")}</button></div>
+      <div className="finance-product-shell">
+      <div className="finance-product-nav"><div className="finance-product-mark"><span>U</span><strong>Undertaker <small>Transactions</small></strong></div><nav aria-label={t(language, "Navegación de producto", "Product navigation")}><a href="#sandbox">{t(language, "Panel", "Dashboard")}</a><a href="#transactions-feed">{t(language, "Transacciones", "Transactions")}</a><a href="#transactions-audit">{t(language, "Finanzas", "Finance")}</a></nav><span className="finance-product-user">DEMO <i>●</i></span></div>
+      <SandboxHeading language={language} title={t(language, "Transacciones", "Transactions")} description={t(language, "Registra una entrada, repite su código y asígnala. Cada cambio queda en la pista de auditoría.", "Create an entry, repeat its code and assign it. Every change is kept in the audit trail.")} />
       <div className="demo-metrics demo-metrics-four">
         <Metric label={t(language, "VOLUMEN REGISTRADO", "RECORDED VOLUME")} value={money(total)} detail={`${transactions.length} ${t(language, "movimientos ficticios", "fictional entries")}`} />
         <Metric label={t(language, "PENDIENTES", "PENDING")} value={String(pending.length).padStart(2, "0")} />
         <Metric label={t(language, "DEUDA ASIGNADA", "ASSIGNED BALANCE")} value={money(debt)} />
-        <Metric label={t(language, "CLAVE ÚNICA", "UNIQUE KEY")} value="BANK+CODE" className="demo-metric-emphasis" />
+        <Metric label={t(language, "BANCOS CONECTADOS", "CONNECTED BANKS")} value="03" detail="North · Harbor · Crest" className="demo-metric-emphasis" />
       </div>
-      <div className="demo-dashboard demo-finance-layout">
+      <div id="transactions-feed" className="demo-dashboard demo-finance-layout">
         <Panel kicker={t(language, "01 / REGISTRO", "01 / LEDGER")} title={t(language, "Movimientos", "Transactions")} className="demo-transactions-panel">
           <div className="demo-filter-row" aria-label="Filtrar movimientos">
             {(["todas", "pendiente", "asignada"] as const).map((item) => <button type="button" key={item} className={filter === item ? "active" : ""} onClick={() => setFilter(item)}>{item === "todas" ? t(language, "Todas", "All") : item === "pendiente" ? t(language, "Pendientes", "Pending") : t(language, "Asignadas", "Assigned")}<span>{item === "todas" ? transactions.length : item === "pendiente" ? pending.length : assigned.length}</span></button>)}
@@ -129,10 +127,12 @@ export function FinanceDemo({ language, onLanguageChange, preview = false }: { l
         </div>
       </div>
       <div className="demo-ledger-compare" aria-live="polite"><div><span>{t(language, "ANTES", "BEFORE")}</span><strong>{snapshot ? snapshot.label === "ASSIGN" ? money(snapshot.before) : `${snapshot.before} ${t(language, "entradas", "entries")}` : `${seedTransactions().length} ${t(language, "entradas", "entries")}`}</strong></div><div className="demo-compare-arrow">→</div><div><span>{t(language, "DESPUÉS", "AFTER")}</span><strong>{snapshot ? snapshot.label === "ASSIGN" ? money(snapshot.after) : `${snapshot.after} ${t(language, "entradas", "entries")}` : `${transactions.length} ${t(language, "entradas", "entries")}`}</strong></div><p>{snapshot ? snapshot.label === "DUPLICATE" ? t(language, "Duplicado rechazado: el registro no cambió.", "Duplicate rejected: the ledger did not change.") : snapshot.label === "ASSIGN" ? t(language, "La deuda asignada aumenta exactamente por el importe del movimiento.", "Assigned balance increases by exactly the transaction amount.") : t(language, "La nueva entrada se añadió una sola vez.", "The new entry was added once.") : t(language, "Ejecuta uno de los casos para comparar el estado.", "Run a case to compare state.")}</p></div>
-      <div className="demo-bottom-grid">
+      <div id="transactions-audit" className="demo-bottom-grid">
         <Panel kicker={t(language, "04 / EVENTOS", "04 / EVENTS")} title={t(language, "Pista de auditoría", "Audit trail")}><ol className="demo-event-list">{audit.slice(0, 5).map((event) => <li key={event.id}><time>{event.time}</time><div><span>{t(language, event.kind, event.kind === "INGESTA" ? "INGEST" : event.kind === "ASIGNACIÓN" ? "ASSIGNMENT" : event.kind === "DUPLICADO" ? "DUPLICATE" : "CHECK")}</span><p>{language === "en" ? event.detailEn || event.detail : event.detail}</p></div></li>)}</ol></Panel>
         <div className="demo-insight"><span>{t(language, "DECISIÓN DE INGENIERÍA / 01", "ENGINEERING DECISION / 01")}</span><h2>{t(language, "Una operación, una sola vez.", "One operation, one record.")}</h2><p>{t(language, "Banco y confirmación identifican cada entrada. Asignar cambia el saldo y deja un evento; repetir la entrada no la duplica.", "Bank and confirmation identify every entry. Assignment changes the balance and leaves an event; repeating the entry does not duplicate it.")}</p><div className="demo-insight-line"><ArrowDownRight size={18} /> {t(language, "PRUEBA EL CASO DUPLICADO", "TRY THE DUPLICATE CASE")}</div></div>
       </div>
+      </div>
+      {!preview && <DemoCaseStudy slug="transactions" language={language} />}
       {message && <div className="demo-toast" role="status">{message}</div>}
     </main>
     <DemoFooter active="transactions" language={language} />

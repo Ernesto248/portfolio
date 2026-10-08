@@ -25,6 +25,8 @@ Las demos son aplicaciones de muestra dentro del mismo despliegue, cada una con 
 
 Todos los datos de las demos son ficticios y viven en la sesión del navegador. No consultan las bases de datos originales ni ejecutan pagos o correos. El botón **Reiniciar** recupera el estado de ejemplo. `vercel.json` permite abrir las rutas directamente en producción.
 
+Cada ruta abre directamente una interfaz reconstruida con la navegación y la estética de su producto. El relato técnico con animaciones de scroll se puede abrir debajo de la interfaz. Tattoo Raffle usa el logo, la imagen y la tipografía originales con autorización; esos recursos no están disponibles para reutilización.
+
 ## Formulario de contacto
 
 La función `api/contact.ts` envía mensajes de texto a la dirección fija del portfolio mediante Resend. El navegador nunca recibe la clave API. Configura estas variables en el proyecto `portfolio` de Vercel para **Production** y **Preview**:
