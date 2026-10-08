@@ -79,10 +79,13 @@ export default {
         text: `Nombre: ${name}\nEmail: ${email}\n\n${message}`,
       });
 
-      return error
-        ? json({ error: "Delivery failed" }, 502)
-        : json({ ok: true }, 200);
-    } catch {
+      if (error) {
+        console.error("Resend contact error", { name: error.name, message: error.message });
+        return json({ error: "Delivery failed" }, 502);
+      }
+      return json({ ok: true }, 200);
+    } catch (error) {
+      console.error("Resend contact exception", error instanceof Error ? { name: error.name, message: error.message } : { name: "UnknownError" });
       return json({ error: "Delivery failed" }, 502);
     }
   },
